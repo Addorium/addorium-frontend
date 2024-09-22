@@ -1,0 +1,33 @@
+.table {
+	@apply w-full shadow-md rounded-md h-full overflow-y-auto bg-gray-1/10 text-gray-6;
+
+	& thead {
+		@apply bg-core-0 text-gray-6;
+
+		& th {
+			@apply font-semibold h-8 text-left px-4;
+		}
+	}
+
+	& tbody {
+		& tr {
+			@apply border-b border-gray-1/10;
+
+			&:last-child {
+				@apply border-b-0;
+			}
+		}
+
+		& td {
+			@apply max-h-32 py-7 px-4;
+
+			&:first-child {
+				@apply pl-4;
+			}
+
+			& img {
+				@apply max-w-44 rounded-sm;
+			}
+		}
+	}
+}

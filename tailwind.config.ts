@@ -1,0 +1,97 @@
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
+	darkMode: 'class',
+	mode: 'jit',
+	content: [
+		'./src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/components/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/app/**/*.{js,ts,jsx,tsx,mdx}',
+	],
+	theme: {
+		extend: {
+			colors: {
+				transparent: 'transparent',
+				core: {
+					0: '#5F5BFF',
+					1: '#7672FF',
+					2: '#6763FF',
+				},
+				gray: {
+					1: '#FFFFFF',
+					2: '#454550',
+					3: '#1E1E25',
+					4: '#151519',
+					5: '#858585',
+					6: '#B7B7B7',
+				},
+				background: {
+					1: '#23232C',
+					2: '#1F1F28',
+					3: '#1B1B21',
+					4: '#16161D',
+					5: '#0D0D11',
+					6: '#09090C',
+				},
+				while: '#FFFFFF',
+			},
+			fontSize: {
+				xs: '0.9rem',
+				sm: '1.07rem',
+				base: '1.18rem',
+				lg: '1.24rem',
+				xl: '1.38rem',
+				'1.5xl': '1.5rem',
+				'2xl': '1.82rem',
+				'3xl': '2.22rem',
+				'4xl': '2.66rem',
+				'5xl': '3.56rem',
+				'6xl': '4.44rem',
+				'7xl': '5.33rem',
+				'8xl': '6.22rem',
+				'9xl': '7.1rem',
+				'10xl': '9.5rem',
+			},
+			transitionDuration: {
+				DEFAULT: '266ms',
+			},
+			fontFamily: {
+				poppins: ['Poppins', 'sans-serif'],
+				dm: ['DM Sans', 'sans-serif'],
+			},
+			boxShadow: {
+				'3xl': '14px 17px 40px 4px',
+				inset: 'inset 0px 18px 22px',
+				darkinset: '0px 4px 4px inset',
+			},
+		},
+		colors: {
+			blue: '#4277FF',
+			purple: '#9458E0',
+			pink: '#FF699F',
+			red: '#FF5353',
+			orange: '#FF862E',
+			yellow: '#FFBD3E',
+			green: '#43AF68',
+			cyan: '#4EB4FF',
+		},
+		screens: {
+			sm: '576px',
+			'sm-max': { max: '576px' },
+			md: '768px',
+			'md-max': { max: '768px' },
+			lg: '992px',
+			'lg-max': { max: '992px' },
+			xl: '1200px',
+			'xl-max': { max: '1200px' },
+			'2xl': '1320px',
+			'2xl-max': { max: '1320px' },
+			'3xl': '1600px',
+			'3xl-max': { max: '1600px' },
+			'4xl': '1850px',
+			'4xl-max': { max: '1850px' },
+		},
+	},
+	plugins: [],
+}
+export default config

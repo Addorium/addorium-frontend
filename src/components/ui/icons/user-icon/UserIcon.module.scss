@@ -1,0 +1,7 @@
+.userIcon {
+	@apply cursor-pointer relative rounded-2xl flex bg-background-4
+	 transition-transform duration-500 ease-in-out ml-2;
+	img {
+		@apply transition-transform rounded-2xl duration-500 ease-in-out;
+	}
+}
