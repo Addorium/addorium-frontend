@@ -13,9 +13,9 @@ export function Auth() {
 
 	return (
 		<>
-			<div className='flex min-h-screen'>
+			<div className='flex'>
 				<form
-					className='min-w-[425px] h-fit mx-auto shadow bg-gray-3 rounded-xl px-8 py-9'
+					className='min-w-[425px] h-fit mx-auto shadow bg-background-2 rounded-xl px-8 py-9'
 					onSubmit={e => {
 						onSubmit()
 						e.preventDefault()
@@ -61,7 +61,7 @@ export function Auth() {
 							Icon={Key}
 						/>
 						<div className='flex justify-center w-full'>
-							<Button size='large' className='w-fit' Icon={LogIn}>
+							<Button size='normal' className='w-fit' Icon={LogIn}>
 								Login
 							</Button>
 						</div>

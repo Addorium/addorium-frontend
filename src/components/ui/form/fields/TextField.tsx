@@ -38,7 +38,6 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 			onChange,
 			type = 'text',
 			size = 'normal',
-			errorText = 'This field is required',
 			...rest
 		},
 		ref
@@ -76,7 +75,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 			success: 'group-focus-within:text-green',
 			default: 'group-focus-within:text-gray-1',
 		}
-		const divStyle = `group flex justify-start items-center transition-all bg-background-6 py-2 gap-3 px-3 text-gray-2 rounded-2xl ${sizeStyle[size]} ${className} ${typedDivStyle[state]}`
+		const divStyle = `group flex justify-start items-center transition-all bg-background-5 py-2 gap-3 px-3 text-gray-2 rounded-2xl ${sizeStyle[size]} ${className} ${typedDivStyle[state]}`
 		const inputStyle = `w-full bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-regular ${typedInputStyle[state]} ${sizeStyle[size]}`
 		const iconStyle = `${typedIconStyle[state]}`
 

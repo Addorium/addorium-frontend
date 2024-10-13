@@ -1,0 +1,43 @@
+.renderer {
+	@apply text-gray-6;
+	& h1 {
+		@apply border-b-2 border-gray-1 text-gray-1 font-bold mb-4;
+		font-size: 2em !important;
+	}
+	& h2 {
+		@apply text-gray-1 font-bold mb-4;
+		font-size: 1.5em !important;
+		border-bottom: 1px solid;
+	}
+	& h3 {
+		font-size: 1.17em !important;
+	}
+	& h4 {
+		font-size: 1em !important;
+	}
+	& h5 {
+		font-size: 0.83em !important;
+	}
+	& h6 {
+		font-size: 0.67em !important;
+	}
+	& hr {
+		@apply border-t-2 border-gray-1 my-4;
+	}
+	& p {
+		font-size: 1em !important;
+	}
+	& a {
+		@apply text-core-1 hover:text-core-2 transition-colors hover:underline;
+	}
+
+	& ul {
+		@apply list-disc pl-4;
+	}
+	& ol {
+		@apply list-decimal pl-4 ml-1;
+	}
+	& li {
+		@apply mb-2;
+	}
+}

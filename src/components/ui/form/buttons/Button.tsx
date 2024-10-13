@@ -13,19 +13,21 @@ const Button: React.FC<CustomButtonProps> = ({
 	...rest
 }) => {
 	return (
-		<button className={cn(baseStyles(size, type_style), className)} {...rest}>
-			{Icon && (
-				<Icon className={`${iconSize[size]} ${!onlyIcon ? 'mr-1.5' : ''}`} />
-			)}
-			{rest.iconurl && (
-				<img
-					className={`${iconSize[size]} ${!onlyIcon ? 'mr-1.5' : ''} ${!rest.disabled ?? 'opacity-15'}`}
-					src={rest.iconurl}
-					alt='icon'
-				/>
-			)}
-			{children}
-		</button>
+		<div>
+			<button className={cn(baseStyles(size, type_style), className)} {...rest}>
+				{Icon && (
+					<Icon className={`${iconSize[size]} ${!onlyIcon ? 'mr-1.5' : ''}`} />
+				)}
+				{rest.iconurl && (
+					<img
+						className={`${iconSize[size]} ${!onlyIcon ? 'mr-1.5' : ''} ${!rest.disabled ?? 'opacity-15'}`}
+						src={rest.iconurl}
+						alt='icon'
+					/>
+				)}
+				{children}
+			</button>
+		</div>
 	)
 }
 

@@ -1,5 +1,5 @@
 .navbar {
-	@apply flex flex-auto justify-between mt-4 mb-4 text-base overflow-hidden w-full min-w-full py-1;
+	@apply flex flex-auto justify-between mt-4 mb-4 text-base overflow-hidden w-full min-w-full py-1 h-[61px];
 
 	.logo {
 		@apply text-gray-1 text-2xl font-medium;

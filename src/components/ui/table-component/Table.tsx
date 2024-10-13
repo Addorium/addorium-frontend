@@ -1,7 +1,12 @@
 'use client'
+import BasicSkeleton from '../loader/skeleton/BasicSkeleton'
 import { ITableGrid, Node } from './Table.types'
 
-export function Table<T extends Node>({ nodes, columns }: ITableGrid<T>) {
+export function Table<T extends Node>({
+	nodes,
+	columns,
+	isLoading,
+}: ITableGrid<T>) {
 	return (
 		<>
 			<div className='w-full'>
@@ -19,29 +24,46 @@ export function Table<T extends Node>({ nodes, columns }: ITableGrid<T>) {
 						</tr>
 					</thead>
 					<tbody className='w-full rounded-b-2xl'>
-						{nodes.map((node, index) => (
-							<tr
-								key={node.id}
-								className={`transition-all last:rounded-b-2xl ${
-									index % 2 === 0
-										? 'bg-gray-3 text-gray-6'
-										: 'bg-gray-4 text-gray-6'
-								} `}
-							>
-								{columns.map(column => (
-									<td
-										className={`py-1 text-start px-4 ${
-											index + 1 === nodes.length
-												? 'last:rounded-br-2xl first:rounded-bl-2xl'
-												: ''
-										}`}
-										key={column.label?.toString()}
+						{isLoading
+							? Array.from({ length: 5 }).map((_, index) => (
+									<tr
+										key={index}
+										className={`transition-all last:rounded-b-2xl`}
 									>
-										{column.renderCell(node)}
-									</td>
+										{columns.map((column, index) => (
+											<td key={index}>
+												<BasicSkeleton
+													key={column.label?.toString()}
+													width='100%'
+													height='50px'
+												/>
+											</td>
+										))}
+									</tr>
+								))
+							: nodes.map((node, index) => (
+									<tr
+										key={node.id}
+										className={`transition-all last:rounded-b-2xl ${
+											index % 2 === 0
+												? 'bg-gray-3 text-gray-6'
+												: 'bg-gray-4 text-gray-6'
+										} `}
+									>
+										{columns.map(column => (
+											<td
+												className={`py-1 text-start px-4 ${
+													index + 1 === nodes.length
+														? 'last:rounded-br-2xl first:rounded-bl-2xl'
+														: ''
+												}`}
+												key={column.label?.toString()}
+											>
+												{column.renderCell(node)}
+											</td>
+										))}
+									</tr>
 								))}
-							</tr>
-						))}
 					</tbody>
 				</table>
 			</div>

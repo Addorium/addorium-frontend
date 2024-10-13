@@ -1,14 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import {
-	ArrowDownUp,
-	ArrowUpDown,
-	Link,
-	Pencil,
-	Search,
-	Trash2,
-} from 'lucide-react'
+import { ArrowDownUp, ArrowUpDown, Pencil, Search } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo } from 'react'
 
@@ -22,7 +15,7 @@ import SimpleProjectIcon from '@/components/ui/icons/project-icon/SimpleProjectI
 import PaginatorWraper from '@/components/ui/paginator/PaginatorWraper'
 import { Table } from '@/components/ui/table-component/Table'
 import { Column, Node } from '@/components/ui/table-component/Table.types'
-import { MAIN_PAGES } from '@/config/pages-url.config'
+import { MAIN_PAGES, PROJECT_SETTINGS_PAGES } from '@/config/pages-url.config'
 import { useFilter } from '@/hooks/filters/useUserFilter'
 import { projectService } from '@/services/project.service'
 import {
@@ -31,6 +24,7 @@ import {
 	ReadableProjectStatus,
 	ReadableProjectType,
 } from '@/types/project.types'
+import Link from 'next/link'
 
 // Интерфейс для данных проектов
 interface CustomNode extends Node {
@@ -94,15 +88,18 @@ const COLUMNS: Column<CustomNode>[] = [
 	{
 		label: '',
 		renderCell: item => (
-			<div className='flex gap-2 justify-end'>
+			<div className='flex justify-end'>
 				<LinkButton
 					size='small'
 					Icon={Pencil}
-					type_style='coreBorder'
+					className='w-fit'
+					type_style='dark'
 					onlyIcon
-					href={'/'}
+					href={
+						MAIN_PAGES.getProjectLink(item.slug, item.type) +
+						PROJECT_SETTINGS_PAGES.GENERAL
+					}
 				/>
-				<Button size='small' Icon={Trash2} type_style='redBorder' onlyIcon />
 			</div>
 		),
 	},
@@ -149,7 +146,7 @@ export function Projects() {
 	}, [debouncedSearchTerm, orderBy, orderDirection, page, router])
 
 	// Получаем данные о проектах
-	const { data, refetch } = useQuery({
+	const { data, refetch, isLoading } = useQuery({
 		queryKey: ['projects', debouncedSearchTerm, orderBy, orderDirection, page],
 		queryFn: () =>
 			projectService.getAll({
@@ -193,7 +190,7 @@ export function Projects() {
 	])
 
 	return (
-		<div className='flex flex-col px-4 py-5 w-full bg-gray-3 rounded-2xl gap-4'>
+		<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>
 			<Heading title='Projects view' />
 
 			{/* Поиск и сортировка */}
@@ -222,7 +219,7 @@ export function Projects() {
 						}}
 					/>
 					<Button
-						size='small'
+						size='icon'
 						type_style='dark'
 						Icon={orderDirection === 'asc' ? ArrowDownUp : ArrowUpDown}
 						onlyIcon
@@ -245,7 +242,7 @@ export function Projects() {
 					}}
 					top
 				>
-					<Table columns={COLUMNS} nodes={nodes} />
+					<Table columns={COLUMNS} nodes={nodes} isLoading={isLoading} />
 				</PaginatorWraper>
 			</div>
 		</div>

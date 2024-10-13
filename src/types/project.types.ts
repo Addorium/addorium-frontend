@@ -1,3 +1,6 @@
+import { ICategory } from './category.types'
+import { GalleryImage } from './galery.types'
+import { ITag } from './tag.types'
 import { IUser } from './user.types'
 
 export interface IProject {
@@ -9,9 +12,11 @@ export interface IProject {
 	icon: string
 	banner: string
 	description: string
-	category: string
-	tags: string[]
+	categoryId: number
+	category: ICategory
+	tags: ITag[]
 	type: ProjectType
+	galleryImages: GalleryImage[]
 	fileUrl: string
 	ownerId: number
 	owner?: IUser
@@ -47,8 +52,8 @@ export interface IProjectsUpdateProps {
 	icon?: string
 	banner?: string
 	description?: string
-	category?: string
-	tags?: string[]
+	categoryId?: number
+	tags?: number[]
 	type?: ProjectType
 	fileUrl?: string
 	ownerId?: number

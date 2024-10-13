@@ -33,7 +33,7 @@ const Popup: FC<PopupProps> = ({
 	return (
 		<div className='fixed inset-0 flex items-center justify-center bg-background-6 bg-opacity-50'>
 			<div
-				className={`bg-gray-3 px-4 py-5 rounded-2xl shadow-lg w-80 relative drop-shadow-sm outline outline-1 outline-gray-2`}
+				className={`bg-background-2 px-4 py-5 rounded-2xl shadow-lg w-80 relative drop-shadow-sm outline outline-1 outline-gray-2`}
 				ref={popupRef}
 			>
 				<p className='mb-4 text-center'>{message}</p>

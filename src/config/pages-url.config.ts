@@ -39,6 +39,9 @@ class PROJECT_SETTINGS {
 	DESCRIPTION = `${this.root}/description`
 	IMAGES = `${this.root}/images`
 	FILE = `${this.root}/file`
+
+	MODERATION = `${this.root}/moderation`
+	STATISTICS = `${this.root}/statistics`
 }
 
 class ADMIN {
@@ -48,12 +51,14 @@ class ADMIN {
 	USERS = `${this.root}/users`
 	ROLES = `${this.root}/roles`
 	PROJECTS = `${this.root}/projects`
+	CATEGORIES = `${this.root}/categories`
+	TAGS = `${this.root}/tags`
 
 	PERSONAL_ACCESS_TOKENS = `${this.root}/personal-access-tokens`
 	APPLICATIONS = `${this.root}/applications`
 
 	EDIT_USERS(id: number) {
-		return `${this.USERS}/edit/${id}`
+		return `${this.USERS}/${id}/edit`
 	}
 }
 

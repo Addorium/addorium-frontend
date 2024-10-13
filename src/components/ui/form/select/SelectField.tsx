@@ -6,7 +6,7 @@ import { useOnClickOutside } from 'usehooks-ts'
 import { CustomOption, SelectFieldProps } from './select-field,types'
 
 const baseStyle =
-	'rounded-2xl px-4 py-2 text-sm cursor-pointer flex justify-between items-center bg-background-6 text-gray-1'
+	'rounded-2xl px-4 py-2 text-sm cursor-pointer flex justify-between items-center bg-background-5 text-gray-1'
 const sizeStyles = {
 	small: 'h-[40px]',
 	medium: 'h-[48px]',
@@ -71,7 +71,7 @@ export const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
 						</span>
 					</div>
 					{isOpen && (
-						<div className='absolute max-h-52 overflow-auto flex-none w-full rounded-2xl border border-1 border-core-1 bg-background-6 z-10'>
+						<div className='absolute max-h-52 overflow-auto flex-none w-full rounded-2xl border border-1 border-core-1 bg-background-5 z-10'>
 							{options.map((option, index) => (
 								<div
 									key={option.value}

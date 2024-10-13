@@ -42,11 +42,12 @@ export default function RootLayout({
 						position='bottom-right'
 						pauseWhenPageIsHidden
 						duration={5000}
+						expand
 						toastOptions={{
 							unstyled: true,
 							classNames: {
 								toast:
-									'bg-gray-3 px-4 py-2 flex gap-4 justify-start items-center rounded-2xl min-w-[300px]',
+									'bg-background-2 px-4 py-2 flex gap-4 justify-start items-center rounded-2xl min-w-[300px]',
 								title: 'text-red',
 								description: 'text-gre',
 								actionButton: 'bg-zinc',

@@ -11,4 +11,5 @@ export interface ITableGrid<T extends Node>
 	extends React.HTMLAttributes<HTMLDivElement> {
 	columns: Column<T>[]
 	nodes: T[]
+	isLoading?: boolean
 }

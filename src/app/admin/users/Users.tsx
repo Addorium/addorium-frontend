@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { ArrowDownUp, ArrowUpDown, Pencil, Search, Trash2 } from 'lucide-react'
+import { ArrowDownUp, ArrowUpDown, Pencil, Search } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
@@ -58,15 +58,15 @@ const COLUMNS: Column<CustomNode>[] = [
 	{
 		label: '',
 		renderCell: item => (
-			<div className='flex gap-2 justify-end'>
+			<div className='flex justify-end'>
 				<LinkButton
 					size='small'
 					Icon={Pencil}
-					type_style='coreBorder'
+					className='w-fit'
+					type_style='dark'
 					onlyIcon
 					href={ADMIN_PAGES.EDIT_USERS(item.id)}
 				/>
-				<Button size='small' Icon={Trash2} type_style='redBorder' onlyIcon />
 			</div>
 		),
 	},
@@ -112,7 +112,7 @@ export function Users() {
 	}, [debouncedSearchTerm, orderBy, orderDirection, router, page])
 
 	// Запрос данных пользователей
-	const { data, refetch } = useQuery({
+	const { data, refetch, isLoading } = useQuery({
 		queryKey: ['users', debouncedSearchTerm, orderBy, orderDirection, page],
 		queryFn: () =>
 			userService.getAll({
@@ -143,7 +143,7 @@ export function Users() {
 	}, [debouncedSearchTerm, orderBy, orderDirection, page])
 
 	return (
-		<div className='flex flex-col px-4 py-5 w-full bg-gray-3 rounded-2xl gap-4'>
+		<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>
 			<Heading title='Users view' />
 
 			{/* Поисковая строка и сортировка */}
@@ -176,7 +176,7 @@ export function Users() {
 						}}
 					/>
 					<Button
-						size='small'
+						size='icon'
 						type_style='dark'
 						Icon={orderDirection === 'asc' ? ArrowDownUp : ArrowUpDown}
 						onlyIcon
@@ -202,7 +202,7 @@ export function Users() {
 					}}
 					top
 				>
-					<Table columns={COLUMNS} nodes={nodes} />
+					<Table columns={COLUMNS} nodes={nodes} isLoading={isLoading} />
 				</PaginatorWraper>
 			</div>
 		</div>

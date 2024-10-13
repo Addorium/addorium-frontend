@@ -1,5 +1,6 @@
 'use client'
 
+import { errorCatch } from '@/api/error'
 import LoaderLayout from '@/components/loader-layout'
 import Button from '@/components/ui/form/buttons/Button'
 import { InputField } from '@/components/ui/form/fields/TextField'
@@ -10,11 +11,13 @@ import {
 	PopupOptions,
 	usePopup,
 } from '@/components/ui/popup-provider/PopupContext'
-import { MAIN_PAGES } from '@/config/pages-url.config'
+import { MAIN_PAGES, PROJECT_SETTINGS_PAGES } from '@/config/pages-url.config'
+import { useProjectRevalidate } from '@/hooks/useRevalidate'
 import { projectService } from '@/services/project.service'
 import { IProjectsUpdateProps } from '@/types/project.types'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { Trash2 } from 'lucide-react'
+import { Save, Trash2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -32,6 +35,8 @@ export default function General({
 }) {
 	const { showPopup, hidePopup } = usePopup()
 	const [currentUrl, setCurrentUrl] = useState<string>(MAIN_PAGES.BLUEPRINTS)
+	const { push } = useRouter()
+	const { refreshQueries } = useProjectRevalidate()
 
 	const { data: project, isLoading } = useQuery({
 		queryKey: ['project', params.slug],
@@ -40,11 +45,20 @@ export default function General({
 		},
 	})
 
-	const { mutate: updateProject } = useMutation({
+	const {
+		mutate: updateProject,
+		isSuccess,
+		isPending,
+	} = useMutation({
 		mutationKey: ['updateProject'],
 		mutationFn: (data: IProjectsUpdateProps) => projectService.update(data),
 		onSuccess: () => {
 			toast.success('Project updated')
+		},
+		onError: error => {
+			toast.error('Error updating project', {
+				description: errorCatch(error),
+			})
 		},
 	})
 	const {
@@ -61,7 +75,6 @@ export default function General({
 	})
 	const [type] = watch(['type'])
 	useEffect(() => {
-		const rType = project?.type || 'BLUEPRINT'
 		switch (type) {
 			case 'BLUEPRINT':
 				setCurrentUrl(MAIN_PAGES.BLUEPRINTS)
@@ -90,18 +103,27 @@ export default function General({
 
 	const onSubmit: SubmitHandler<IProjectsUpdateProps> = data => {
 		data.id = project?.id || 0
-		data.slug = project?.slug || ''
+		data.slug = data.slug || project?.slug || ''
 		updateProject(data)
 		hidePopup()
+		if (isSuccess) {
+			if (project?.slug !== data.slug || project?.type !== data.type) {
+				const url =
+					MAIN_PAGES.getProjectLink(data.slug, data.type || 'BLUEPRINT') +
+					PROJECT_SETTINGS_PAGES.GENERAL
+				refreshQueries({ projectSlug: data.slug })
+				push(url)
+			}
+		}
 	}
 	return (
 		<div className='flex flex-col gap-4'>
-			<div className='flex flex-col px-4 py-5 w-full bg-gray-3 rounded-2xl gap-4'>
+			<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>
 				<Heading title='Project information' />
 				<LoaderLayout loading={isLoading}>
 					<div>
 						<div className='flex flex-col gap-3 '>
-							<h1 className='text-lg text-gray-1 font-semibold'>Icon</h1>
+							<h1 className='text-lg text-gray-6 font-semibold'>Icon</h1>
 							<UpdateProjectIcon project={project} />
 						</div>
 						<div className='flex flex-col gap-6 mt-4'>
@@ -183,6 +205,8 @@ export default function General({
 									size='small'
 									className='w-24'
 									type_style='core'
+									Icon={Save}
+									disabled={isPending}
 									onClick={() => {
 										showPopup(popupOptions)
 									}}
@@ -194,7 +218,7 @@ export default function General({
 					</div>
 				</LoaderLayout>
 			</div>
-			<div className='flex flex-col px-4 py-5 w-full bg-gray-3 rounded-2xl gap-4'>
+			<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>
 				<Heading
 					title='Delete project'
 					description="Removes your project from Addorium's servers and search. Clicking on this will delete your project, so be extra careful!"
@@ -207,7 +231,4 @@ export default function General({
 			</div>
 		</div>
 	)
-}
-function urlSlug(arg0: string) {
-	throw new Error('Function not implemented.')
 }

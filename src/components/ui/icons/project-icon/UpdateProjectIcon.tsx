@@ -26,7 +26,7 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({ project }) => {
 		onSuccess: () => {
 			toast.success('Image updated')
 			inputFile.current!.value = ''
-			refreshQueries(project.slug)
+			refreshQueries({ projectSlug: project.slug })
 		},
 		onError: (error: any) => {
 			inputFile.current!.value = ''
@@ -40,7 +40,7 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({ project }) => {
 		onSuccess: () => {
 			toast.success('Image cleared', { description: 'Image is cleared' })
 			inputFile.current!.value = ''
-			refreshQueries(project.slug)
+			refreshQueries({ projectSlug: project.slug })
 		},
 		onError: (error: { message: string }) => {
 			inputFile.current!.value = ''

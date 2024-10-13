@@ -8,7 +8,7 @@ export default function Overview() {
 	const { data, isLoading } = useProfile()
 
 	return (
-		<div className='flex flex-col px-4 py-5 w-full bg-gray-3 rounded-2xl gap-4'>
+		<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>
 			<div className='flex gap-4 items-center'>
 				<SimpleUserIcon
 					avatar={data?.avatar}

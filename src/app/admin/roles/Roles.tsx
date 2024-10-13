@@ -1,18 +1,12 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import {
-	ArrowDownUp,
-	ArrowUpDown,
-	Pencil,
-	Plus,
-	Search,
-	Trash2,
-} from 'lucide-react'
+import { ArrowDownUp, ArrowUpDown, Pencil, Plus, Search } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
 import Button from '@/components/ui/form/buttons/Button'
+import LinkButton from '@/components/ui/form/buttons/LinkButton'
 import { InputField } from '@/components/ui/form/fields/TextField'
 import { Heading } from '@/components/ui/Heading'
 import PaginatorWraper from '@/components/ui/paginator/PaginatorWraper'
@@ -40,9 +34,15 @@ const COLUMNS: Column<CustomNode>[] = [
 	{
 		label: '',
 		renderCell: item => (
-			<div className='flex gap-2 justify-end'>
-				<Button size='small' Icon={Pencil} type_style='coreBorder' onlyIcon />
-				<Button size='small' Icon={Trash2} type_style='redBorder' onlyIcon />
+			<div className='flex justify-end'>
+				<LinkButton
+					size='small'
+					Icon={Pencil}
+					className='w-fit'
+					type_style='dark'
+					onlyIcon
+					href={'/admin/roles/' + item.id}
+				/>
 			</div>
 		),
 	},
@@ -83,7 +83,7 @@ export function Roles() {
 	}, [debouncedSearchTerm, orderDirection, page, router])
 
 	// Запрос данных ролей
-	const { data, refetch } = useQuery({
+	const { data, refetch, isLoading } = useQuery({
 		queryKey: ['roles', debouncedSearchTerm, orderDirection, page],
 		queryFn: () =>
 			roleService.getAll({
@@ -117,7 +117,7 @@ export function Roles() {
 	])
 
 	return (
-		<div className='flex flex-col px-4 py-5 w-full bg-gray-3 rounded-2xl gap-4'>
+		<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>
 			<Heading title='Roles view' />
 
 			{/* Поисковая строка и сортировка */}
@@ -133,7 +133,7 @@ export function Roles() {
 				/>
 				<div className='flex gap-2 items-center'>
 					<Button
-						size='small'
+						size='icon'
 						type_style='dark'
 						Icon={orderDirection === 'asc' ? ArrowDownUp : ArrowUpDown}
 						onlyIcon
@@ -159,7 +159,7 @@ export function Roles() {
 					}}
 					top
 				>
-					<Table columns={COLUMNS} nodes={nodes} />
+					<Table columns={COLUMNS} nodes={nodes} isLoading={isLoading} />
 				</PaginatorWraper>
 			</div>
 		</div>

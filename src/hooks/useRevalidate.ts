@@ -8,11 +8,15 @@ interface IUserRevalidate {
 	): void
 }
 interface IProjectRevalidate {
-	refreshQueries(
-		projectId?: string[] | string,
-		projectSlug?: string[] | string,
+	refreshQueries({
+		projectId,
+		projectSlug,
+		all,
+	}: {
+		projectId?: string[] | string
+		projectSlug?: string[] | string
 		all?: boolean
-	): void
+	}): void
 }
 
 export function useUserRevalidate(): IUserRevalidate {
@@ -59,11 +63,15 @@ export function useUserRevalidate(): IUserRevalidate {
 export function useProjectRevalidate(): IProjectRevalidate {
 	const queryClient = useQueryClient()
 
-	const refreshQueries = (
-		projectId?: string[] | string,
-		projectSlug?: string[] | string,
+	const refreshQueries = ({
+		projectId,
+		projectSlug,
+		all,
+	}: {
+		projectId?: string[] | string
+		projectSlug?: string[] | string
 		all?: boolean
-	) => {
+	}) => {
 		setTimeout(() => {
 			if (all) {
 				queryClient.invalidateQueries({

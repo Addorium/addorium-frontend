@@ -20,20 +20,22 @@ export function Sidebar({ categories, title }: Props) {
 						<h1 className='text-gray-1 text-3xl font-bold'>{title}</h1>
 					</div>
 				)}
-				{categories.map((category, index) => {
-					if (category.permission) {
-						return (
-							<PermissionGuard
-								key={index}
-								requiredPermission={category.permission}
-								userPermissions={data?.role?.permissions}
-							>
-								<SidebarCategory key={index} categorie={category} />
-							</PermissionGuard>
-						)
-					}
-					return <SidebarCategory key={index} categorie={category} />
-				})}
+				<div className='flex flex-col gap-2'>
+					{categories.map((category, index) => {
+						if (category.permission) {
+							return (
+								<PermissionGuard
+									key={index}
+									requiredPermission={category.permission}
+									userPermissions={data?.role?.permissions}
+								>
+									<SidebarCategory key={index} categorie={category} />
+								</PermissionGuard>
+							)
+						}
+						return <SidebarCategory key={index} categorie={category} />
+					})}
+				</div>
 			</div>
 		</>
 	)

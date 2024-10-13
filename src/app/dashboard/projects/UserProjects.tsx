@@ -222,7 +222,7 @@ export default function UserProject() {
 	}, [debouncedSearchTerm, orderBy, orderDirection, page])
 
 	return (
-		<div className='flex flex-col px-4 py-5 w-full bg-gray-3 rounded-2xl gap-4'>
+		<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>
 			<div className='flex justify-between items-start'>
 				<Heading
 					title='Your projects'
@@ -263,7 +263,7 @@ export default function UserProject() {
 						}}
 					/>
 					<Button
-						size='small'
+						size='icon'
 						type_style='dark'
 						Icon={orderDirection === 'asc' ? ArrowDownUp : ArrowUpDown}
 						onlyIcon
@@ -287,7 +287,7 @@ export default function UserProject() {
 					}}
 					top
 				>
-					<Table columns={COLUMNS} nodes={nodes}></Table>
+					<Table columns={COLUMNS} nodes={nodes} isLoading={isLoading}></Table>
 				</PaginatorWraper>
 			</div>
 		</div>

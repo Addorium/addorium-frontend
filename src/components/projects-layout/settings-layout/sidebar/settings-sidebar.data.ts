@@ -1,4 +1,12 @@
-import { Bell, ChartBar, LayoutDashboard } from 'lucide-react'
+import {
+	ChartColumn,
+	FolderInput,
+	ImageUp,
+	LayoutDashboard,
+	MessageCircleWarning,
+	PencilRuler,
+	Tags,
+} from 'lucide-react'
 
 import {
 	ISidebarCategory,
@@ -19,18 +27,18 @@ const getProjectControlItems = (
 		name: 'General',
 	},
 	{
-		Icon: ChartBar,
+		Icon: Tags,
 		link: MAIN_PAGES.getProjectLink(slug, type) + PROJECT_SETTINGS_PAGES.TAGS,
 		name: 'Tags',
-		disabled: true,
+		disabled: false,
 	},
 	{
-		Icon: Bell,
+		Icon: PencilRuler,
 		link:
 			MAIN_PAGES.getProjectLink(slug, type) +
 			PROJECT_SETTINGS_PAGES.DESCRIPTION,
 		name: 'Description',
-		disabled: true,
+		disabled: false,
 	},
 ]
 
@@ -39,12 +47,13 @@ const getProjectUploadItems = (
 	type: ProjectType
 ): ISidebarItem[] => [
 	{
-		Icon: LayoutDashboard,
+		Icon: ImageUp,
 		link: MAIN_PAGES.getProjectLink(slug, type) + PROJECT_SETTINGS_PAGES.IMAGES,
 		name: 'Images',
+		disabled: false,
 	},
 	{
-		Icon: ChartBar,
+		Icon: FolderInput,
 		link: MAIN_PAGES.getProjectLink(slug, type) + PROJECT_SETTINGS_PAGES.FILE,
 		name: 'File',
 		disabled: true,
@@ -56,15 +65,20 @@ const getProjectAdminItems = (
 	type: ProjectType
 ): ISidebarItem[] => [
 	{
-		Icon: LayoutDashboard,
-		link: MAIN_PAGES.getProjectLink(slug, type) + PROJECT_SETTINGS_PAGES.IMAGES,
-		name: 'Images',
+		Icon: MessageCircleWarning,
+		link:
+			MAIN_PAGES.getProjectLink(slug, type) + PROJECT_SETTINGS_PAGES.MODERATION,
+		name: 'Moderation',
+		disabled: false,
+		permission: 'admin:menu.project.settings.moderation',
 	},
 	{
-		Icon: ChartBar,
-		link: MAIN_PAGES.getProjectLink(slug, type) + PROJECT_SETTINGS_PAGES.FILE,
-		name: 'File',
-		disabled: true,
+		Icon: ChartColumn,
+		link:
+			MAIN_PAGES.getProjectLink(slug, type) + PROJECT_SETTINGS_PAGES.STATISTICS,
+		name: 'Statistics',
+		disabled: false,
+		permission: 'admin:menu.project.settings.statistics',
 	},
 ]
 
@@ -83,6 +97,6 @@ export const getProjectSettingsCategories = (
 	{
 		name: 'Admin',
 		items: getProjectAdminItems(slug, type),
-		permission: 'admin:menu.project.settings',
+		permission: 'admin:menu.project.settings.*',
 	},
 ]

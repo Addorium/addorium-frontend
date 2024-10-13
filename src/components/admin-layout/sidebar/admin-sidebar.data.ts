@@ -17,10 +17,22 @@ export const USER_CONTROLL: ISidebarItem[] = [
 		link: ADMIN_PAGES.ROLES,
 		name: 'Roles',
 	},
+]
+export const PROJECTS_CONTROLL: ISidebarItem[] = [
 	{
 		Icon: Folders,
 		link: ADMIN_PAGES.PROJECTS,
 		name: 'Projects',
+	},
+	{
+		Icon: Folder,
+		link: ADMIN_PAGES.CATEGORIES,
+		name: 'Categories',
+	},
+	{
+		Icon: Folder,
+		link: ADMIN_PAGES.TAGS,
+		name: 'Tags',
 	},
 ]
 export const DEVELOPERS_CONTROLL: ISidebarItem[] = [
@@ -40,6 +52,10 @@ export const ADMIN_CATEGORIES: ISidebarCategory[] = [
 	{
 		name: 'User controll',
 		items: USER_CONTROLL,
+	},
+	{
+		name: 'Projects controll',
+		items: PROJECTS_CONTROLL,
 	},
 	{
 		name: 'Developers controll',

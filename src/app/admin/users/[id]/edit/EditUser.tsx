@@ -91,7 +91,7 @@ export function UserEdit({ userId }: { userId: string }) {
 
 	return (
 		<>
-			<div className='flex flex-col px-4 py-5 w-full bg-gray-3 rounded-2xl gap-4'>
+			<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>
 				<div className='w-full'>
 					<h1 className='text-gray-1 text-2xl font-bold'>User updating</h1>
 				</div>

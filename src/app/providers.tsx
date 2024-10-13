@@ -1,5 +1,6 @@
 'use client'
 
+import { ImagePopupProvider } from '@/components/ui/image-popup-provider/ImagePopupContext'
 import { ModalProvider } from '@/components/ui/modal-provider/ModalContext'
 import { PopupProvider } from '@/components/ui/popup-provider/PopupContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -21,8 +22,10 @@ export function Providers({ children }: PropsWithChildren) {
 		<QueryClientProvider client={client}>
 			<ModalProvider>
 				<PopupProvider>
-					{children}
-					<ReactQueryDevtools initialIsOpen={false} />
+					<ImagePopupProvider>
+						{children}
+						<ReactQueryDevtools initialIsOpen={false} />
+					</ImagePopupProvider>
 				</PopupProvider>
 			</ModalProvider>
 		</QueryClientProvider>

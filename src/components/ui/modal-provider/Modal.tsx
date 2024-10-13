@@ -37,7 +37,7 @@ const Modal: FC<ModalProps> = ({
 				className='bg-background-4 rounded-2xl shadow-lg relative w-[592px] '
 				ref={modalRef}
 			>
-				<div className='flex justify-between items-center mb-4 bg-gray-3 rounded-t-2xl p-4'>
+				<div className='flex justify-between items-center mb-4 bg-background-2 rounded-t-2xl p-4'>
 					<h1 className='text-2xl font-semibold'>{title}</h1>
 					{closeButton && (
 						<button

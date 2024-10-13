@@ -27,10 +27,10 @@ interface Props {}
 export function NavBar({}: Props) {
 	const { data, isLoading } = useProfile()
 	const { isAuth } = useAuth()
-	const [isShow, setIsShow] = useState<boolean>()
 	const isClient = useIsClient()
 	const dropdown = useRef(null)
 	const { showModal } = useModal()
+	const [isShow, setIsShow] = useState<boolean>(false)
 	useOnClickOutside(dropdown, () => setIsShow(false))
 
 	const modalOptions: ModalOptions = {
@@ -52,12 +52,14 @@ export function NavBar({}: Props) {
 					<NavBarItem key={index} label={item.label} href={item.href} />
 				))}
 			</div>
-			<div className='flex gap-2 min-w-[190px]'>
+			<div className='flex justify-end gap-2 min-w-[190px]'>
 				<LoaderLayout loading={!isClient}>
 					<PermissionGuard permanent={!isAuth}>
-						<LinkButton href='/auth' size='large' Icon={LogIn} className='w-36'>
-							Sign In
-						</LinkButton>
+						<div className='flex items-center justify-end'>
+							<LinkButton href='/auth' size='normal' Icon={LogIn}>
+								Sign In
+							</LinkButton>
+						</div>
 					</PermissionGuard>
 					<PermissionGuard permanent={isAuth}>
 						<div className='flex items-center justify-end gap-1'>

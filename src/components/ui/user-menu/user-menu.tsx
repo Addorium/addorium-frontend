@@ -42,7 +42,7 @@ const UserMenu = forwardRef<Ref, IUserMenu>((props, ref) => {
 						))}
 						<div className='my-2 h-0.5 bg-gray-2 w-full' />
 						<PermissionGuard
-							requiredPermission='admin:menu.button'
+							requiredPermission='admin:dashboard.button'
 							userPermissions={data?.role?.permissions}
 						>
 							<UserMenuItem

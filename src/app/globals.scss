@@ -20,14 +20,6 @@ body {
 	@apply text-base 4xl:px-[330px] 3xl:px-52 2xl:px-32 xl:px-20 lg:px-10 md:px-0 pb-4 bg-background-5;
 	font-family: var(--font-roboto), sans-serif;
 	color: rgb(var(--foreground-rgb));
-
-	@media (max-width: 1200px) {
-		font-size: 16px;
-	}
-
-	@media (max-width: 992px) {
-		font-size: 14px;
-	}
 }
 
 input.defaultCheckbox {
@@ -81,5 +73,16 @@ input:checked.defaultCheckbox::before {
 
 	to {
 		opacity: 1;
+	}
+}
+@keyframes pulse {
+	0% {
+		@apply bg-background-3;
+	}
+	50% {
+		@apply bg-background-1;
+	}
+	100% {
+		@apply bg-background-3;
 	}
 }

@@ -24,12 +24,9 @@ const SidebarCategory: React.FC<SidebarItemProps> = ({ categorie }) => {
 						<PermissionGuard
 							requiredPermission={item.permission}
 							userPermissions={data?.role?.permissions}
+							key={index}
 						>
-							<SidebarItem
-								key={index}
-								active={pathname === item.link}
-								item={item}
-							/>
+							<SidebarItem active={pathname === item.link} item={item} />
 						</PermissionGuard>
 					)
 				} else {
