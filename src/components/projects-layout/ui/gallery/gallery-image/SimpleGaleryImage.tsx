@@ -5,11 +5,13 @@ import { useEffect, useState } from 'react'
 interface SimpleGalleryImageProps {
 	galleryImage: GalleryImage
 	width?: string
+	maxHeight?: string
 }
 
 export default function SimpleGalleryImage({
 	galleryImage,
 	width = '291px',
+	maxHeight = '891px',
 }: SimpleGalleryImageProps) {
 	const [aspectRatio, setAspectRatio] = useState<string>('16 / 9')
 	const name = galleryImage.url ?? 'default.webp'

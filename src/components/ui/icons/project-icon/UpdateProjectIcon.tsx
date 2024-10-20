@@ -1,6 +1,6 @@
 'use client'
 import { errorCatch } from '@/api/error'
-import { useProjectRevalidate } from '@/hooks/useRevalidate'
+import { useRevalidateAllQueries } from '@/hooks/useRevalidate'
 import { projectService } from '@/services/project.service'
 import { IProject } from '@/types/project.types'
 import { useMutation } from '@tanstack/react-query'
@@ -23,14 +23,14 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({
 	}
 
 	const inputFile = useRef<HTMLInputElement | null>(null)
-	const { refreshQueries } = useProjectRevalidate()
+	const revalidate = useRevalidateAllQueries()
 
-	const { mutate: updateImage } = useMutation({
+	const { mutate: updateImage, isPending } = useMutation({
 		mutationFn: (image_data: FormData) => projectService.updateIcon(image_data),
 		onSuccess: () => {
 			toast.success('Image updated')
 			inputFile.current!.value = ''
-			refreshQueries({ projectSlug: project.slug })
+			revalidate()
 		},
 		onError: (error: any) => {
 			inputFile.current!.value = ''
@@ -44,7 +44,7 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({
 		onSuccess: () => {
 			toast.success('Image cleared', { description: 'Image is cleared' })
 			inputFile.current!.value = ''
-			refreshQueries({ projectSlug: project.slug })
+			revalidate()
 		},
 		onError: (error: { message: string }) => {
 			inputFile.current!.value = ''
@@ -55,6 +55,7 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({
 	})
 
 	const handleFileChange = (file: File) => {
+		console.log(file)
 		const formData = new FormData()
 		if (file) {
 			formData.append('file', file)
@@ -70,7 +71,7 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({
 				</div>
 				<div className='flex flex-col gap-2 justify-center w-fit'>
 					<Button
-						disabled={disabled}
+						disabled={disabled || isPending}
 						className='w-full'
 						size='medium'
 						type_style='dark'
@@ -82,7 +83,7 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({
 						Upload Image
 					</Button>
 					<Button
-						disabled={disabled}
+						disabled={disabled || isPending}
 						className='w-full'
 						size='medium'
 						type_style='red'
@@ -100,6 +101,7 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({
 						ref={inputFile}
 						onChange={e => {
 							const file = e.target.files?.[0]
+							console.log('file', file)
 							if (file) {
 								handleFileChange(file)
 							}

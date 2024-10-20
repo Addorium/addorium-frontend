@@ -1,6 +1,6 @@
 'use client'
 import { errorCatch } from '@/api/error'
-import { useProjectRevalidate } from '@/hooks/useRevalidate'
+import { useRevalidateAllQueries } from '@/hooks/useRevalidate'
 import { projectService } from '@/services/project.service'
 import { IProject } from '@/types/project.types'
 import { useMutation } from '@tanstack/react-query'
@@ -19,14 +19,14 @@ const UpdateTagIcon: React.FC<IUpdateTagIcon> = ({ project }) => {
 	}
 
 	const inputFile = useRef<HTMLInputElement | null>(null)
-	const { refreshQueries } = useProjectRevalidate()
+	const revalidate = useRevalidateAllQueries()
 
-	const { mutate: updateImage } = useMutation({
+	const { mutate: updateImage, isPending } = useMutation({
 		mutationFn: (image_data: FormData) => projectService.updateIcon(image_data),
 		onSuccess: () => {
 			toast.success('Image updated')
 			inputFile.current!.value = ''
-			refreshQueries({ projectSlug: project.slug })
+			revalidate()
 		},
 		onError: (error: any) => {
 			inputFile.current!.value = ''
@@ -52,6 +52,7 @@ const UpdateTagIcon: React.FC<IUpdateTagIcon> = ({ project }) => {
 				</div>
 				<div className='flex flex-col gap-2 justify-center'>
 					<Button
+						disabled={isPending}
 						size='small'
 						type_style='dark'
 						Icon={Upload}
@@ -62,6 +63,7 @@ const UpdateTagIcon: React.FC<IUpdateTagIcon> = ({ project }) => {
 						Upload Image
 					</Button>
 					<input
+						disabled={isPending}
 						type='file'
 						className='hidden'
 						ref={inputFile}

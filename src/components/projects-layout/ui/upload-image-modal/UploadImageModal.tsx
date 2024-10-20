@@ -27,7 +27,7 @@ export function UploadImageModal({ projectId }: UploadImageModalProps) {
 	} = useForm<GalleryImageUpload>({})
 	const revalidateAll = useRevalidateAllQueries()
 
-	const { mutate: uploadImage } = useMutation({
+	const { mutate: uploadImage, isPending } = useMutation({
 		mutationFn: (data: GalleryImageUpload) => {
 			return galleryService.create(data)
 		},
@@ -59,6 +59,7 @@ export function UploadImageModal({ projectId }: UploadImageModalProps) {
 					name='title'
 					render={({ field }) => (
 						<InputField
+							disabled={field.disabled}
 							placeholder='Title'
 							id='title'
 							label='Title'
@@ -74,6 +75,7 @@ export function UploadImageModal({ projectId }: UploadImageModalProps) {
 					name='description'
 					render={({ field }) => (
 						<InputField
+							disabled={field.disabled}
 							placeholder='Description'
 							id='description'
 							label='Description'
@@ -89,6 +91,7 @@ export function UploadImageModal({ projectId }: UploadImageModalProps) {
 					name='file'
 					render={({ field }) => (
 						<ImageFileField
+							disabled={field.disabled}
 							id='image'
 							label='Image'
 							placeholder='Drag and drop image here...'
@@ -102,6 +105,7 @@ export function UploadImageModal({ projectId }: UploadImageModalProps) {
 			</div>
 			<div className='flex gap-2 justify-end'>
 				<Button
+					disabled={isPending}
 					size='normal'
 					type_style='transperent'
 					onClick={() => {
@@ -112,6 +116,7 @@ export function UploadImageModal({ projectId }: UploadImageModalProps) {
 					Cancel
 				</Button>
 				<Button
+					disabled={isPending}
 					size='normal'
 					type_style='primary'
 					onClick={handleSubmit(onSubmit)}

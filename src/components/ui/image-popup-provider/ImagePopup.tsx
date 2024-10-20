@@ -14,7 +14,7 @@ const ImagePopup: FC<ImagePopupOptions> = ({ galeryImage }) => {
 		<div className='fixed inset-0 flex items-center justify-center bg-background-6 bg-opacity-50'>
 			<div
 				ref={popupRef}
-				className='bg-background-1 rounded-2xl flex flex-col gap-2 pb-4 w-[900px]'
+				className='bg-background-1 rounded-2xl flex flex-col gap-2 pb-4 overflow-y-auto'
 			>
 				<div>
 					<SimpleGalleryImage width='900px' galleryImage={galeryImage} />

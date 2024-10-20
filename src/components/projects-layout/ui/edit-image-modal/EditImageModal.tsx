@@ -34,7 +34,7 @@ export function EditImageModal({ image }: EditImageModalProps) {
 	})
 	const revalidateAll = useRevalidateAllQueries()
 
-	const { mutate: updateImage } = useMutation({
+	const { mutate: updateImage, isPending } = useMutation({
 		mutationFn: (data: GalleryImageUpdate) => {
 			return galleryService.update(data)
 		},
@@ -74,6 +74,7 @@ export function EditImageModal({ image }: EditImageModalProps) {
 					name='title'
 					render={({ field }) => (
 						<InputField
+							disabled={field.disabled}
 							placeholder='Title'
 							id='title'
 							label='Title'
@@ -89,6 +90,7 @@ export function EditImageModal({ image }: EditImageModalProps) {
 					name='description'
 					render={({ field }) => (
 						<InputField
+							disabled={field.disabled}
 							placeholder='Description'
 							id='description'
 							label='Description'
@@ -104,6 +106,7 @@ export function EditImageModal({ image }: EditImageModalProps) {
 					name='bannerOf'
 					render={({ field }) => (
 						<Toggle
+							disabled={field.disabled}
 							checked={isBanner(field.value)}
 							onChange={e => {
 								field.onChange(e ? projectId : undefined)
@@ -116,6 +119,7 @@ export function EditImageModal({ image }: EditImageModalProps) {
 			</div>
 			<div className='flex gap-2 justify-end'>
 				<Button
+					disabled={isPending}
 					size='normal'
 					type_style='transperent'
 					onClick={() => {
@@ -126,6 +130,7 @@ export function EditImageModal({ image }: EditImageModalProps) {
 					Cancel
 				</Button>
 				<Button
+					disabled={isPending}
 					size='normal'
 					type_style='primary'
 					onClick={handleSubmit(onSubmit)}

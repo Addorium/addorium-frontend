@@ -1,6 +1,6 @@
 'use client'
 import { errorCatch } from '@/api/error'
-import { useUserRevalidate } from '@/hooks/useRevalidate'
+import { useRevalidateAllQueries } from '@/hooks/useRevalidate'
 import { userService } from '@/services/user.service'
 import { IUser } from '@/types/user.types'
 import { useMutation } from '@tanstack/react-query'
@@ -19,14 +19,14 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 	}
 
 	const inputFile = useRef<HTMLInputElement | null>(null)
-	const { refreshQueries } = useUserRevalidate()
+	const revalidate = useRevalidateAllQueries()
 
-	const { mutate: updateAvatar } = useMutation({
+	const { mutate: updateAvatar, isPending } = useMutation({
 		mutationFn: (image_data: FormData) => userService.updateAvatar(image_data),
 		onSuccess: () => {
 			toast.success('Avatar updated')
 			inputFile.current!.value = ''
-			refreshQueries(user.id.toString(), true)
+			revalidate()
 		},
 		onError: (error: any) => {
 			inputFile.current!.value = ''
@@ -40,7 +40,7 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 		onSuccess: () => {
 			toast.success('Avatar cleared', { description: 'Avatat is cleared' })
 			inputFile.current!.value = ''
-			refreshQueries(user.id.toString(), true)
+			revalidate()
 		},
 		onError: (error: { message: string }) => {
 			inputFile.current!.value = ''
@@ -66,6 +66,7 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 				</div>
 				<div className='flex flex-col gap-2'>
 					<Button
+						disabled={isPending}
 						size='small'
 						type_style='dark'
 						Icon={Upload}
@@ -76,6 +77,7 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 						Upload Image
 					</Button>
 					<Button
+						disabled={isPending}
 						size='small'
 						type_style='red'
 						Icon={Trash2}
