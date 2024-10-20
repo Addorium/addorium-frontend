@@ -49,7 +49,7 @@ const COLUMNS: Column<CustomNode>[] = [
 		renderCell: item => (
 			<div className='flex justify-end'>
 				<LinkButton
-					size='small'
+					size='icon'
 					Icon={Pencil}
 					className='w-fit'
 					type_style='dark'
@@ -83,8 +83,6 @@ export function AdminCategories() {
 		setSearch,
 		currentPage: page,
 		setCurrentPage: setPage,
-		projectType,
-		setProjectType,
 	} = useFilter({
 		initialSearch,
 		initialPage,
@@ -95,20 +93,18 @@ export function AdminCategories() {
 	useEffect(() => {
 		const query = new URLSearchParams({
 			search: debouncedSearchTerm || '',
-			projectType: projectType || 'BLUEPRINT',
 			page: page?.toString() || '1',
 		}).toString()
 		router.push(`?${query}`, { scroll: false }) // Отключение скролла при смене страницы
-	}, [debouncedSearchTerm, page, router, projectType])
+	}, [debouncedSearchTerm, page, router])
 
 	// Запрос данных ролей
 	const { data, refetch, isLoading } = useQuery({
-		queryKey: ['categories', debouncedSearchTerm, page, projectType],
+		queryKey: ['categories', debouncedSearchTerm, page],
 		queryFn: () =>
 			categoriesService.getAll({
 				search: debouncedSearchTerm,
 				page,
-				projectType,
 			}),
 	})
 
@@ -146,8 +142,8 @@ export function AdminCategories() {
 				/>
 				<div className='flex gap-2 items-center'>
 					<Button
-						size='small'
-						type_style='core'
+						size='medium'
+						type_style='primary'
 						Icon={Plus}
 						onClick={() => {
 							showModal(categoriesModalProps)

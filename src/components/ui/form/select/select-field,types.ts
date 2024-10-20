@@ -9,6 +9,8 @@ export interface SelectFieldProps {
 	placeholder?: string
 	defaultValue?: CustomOption
 	className?: string
+	width?: string
+	disabled?: boolean
 }
 export interface CustomOption {
 	value: string

@@ -2,21 +2,22 @@
 import { errorCatch } from '@/api/error'
 import Button from '@/components/ui/form/buttons/Button'
 import { InputField } from '@/components/ui/form/fields/TextField'
-import ImageFileField from '@/components/ui/form/file-upload/ImageFileField'
+import Toggle from '@/components/ui/form/toggle/Toggle'
 import { useModal } from '@/components/ui/modal-provider/ModalContext'
 import { useRevalidateAllQueries } from '@/hooks/useRevalidate'
 import { galleryService } from '@/services/galery.service'
-import { GalleryImageUpload } from '@/types/galery.types'
+import { GalleryImage, GalleryImageUpdate } from '@/types/galery.types'
 import { useMutation } from '@tanstack/react-query'
-import { Check, ImageUp, X } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-interface UploadImageModalProps {
-	projectId: number
+interface EditImageModalProps {
+	image: GalleryImage
 }
 
-export function UploadImageModal({ projectId }: UploadImageModalProps) {
+export function EditImageModal({ image }: EditImageModalProps) {
+	const { projectId, id, ...rest } = image
 	const { hideModal } = useModal()
 	const {
 		control,
@@ -24,12 +25,18 @@ export function UploadImageModal({ projectId }: UploadImageModalProps) {
 		setValue,
 		watch,
 		formState: { errors },
-	} = useForm<GalleryImageUpload>({})
+	} = useForm<GalleryImageUpdate>({
+		defaultValues: {
+			title: rest.title,
+			description: rest.description,
+			bannerOf: rest.bannerOf,
+		},
+	})
 	const revalidateAll = useRevalidateAllQueries()
 
-	const { mutate: uploadImage } = useMutation({
-		mutationFn: (data: GalleryImageUpload) => {
-			return galleryService.create(data)
+	const { mutate: updateImage } = useMutation({
+		mutationFn: (data: GalleryImageUpdate) => {
+			return galleryService.update(data)
 		},
 		onSuccess: () => {
 			revalidateAll()
@@ -39,15 +46,23 @@ export function UploadImageModal({ projectId }: UploadImageModalProps) {
 			})
 		},
 		onError: (error: any) => {
+			console.log(error)
 			toast.error('Error creating project', {
 				description: errorCatch(error),
 			})
 		},
 	})
 
-	const onSubmit = (data: GalleryImageUpload) => {
-		data.projectId = projectId
-		uploadImage(data)
+	const onSubmit = (data: GalleryImageUpdate) => {
+		data.id = id
+		console.log(data)
+		updateImage(data)
+	}
+	const isBanner = (value?: number) => {
+		if (value) {
+			return true
+		}
+		return false
 	}
 
 	return (
@@ -86,16 +101,15 @@ export function UploadImageModal({ projectId }: UploadImageModalProps) {
 				/>
 				<Controller
 					control={control}
-					name='file'
+					name='bannerOf'
 					render={({ field }) => (
-						<ImageFileField
-							id='image'
-							label='Image'
-							placeholder='Drag and drop image here...'
-							size='large'
+						<Toggle
+							checked={isBanner(field.value)}
+							onChange={e => {
+								field.onChange(e ? projectId : undefined)
+							}}
+							label='Banner'
 							important
-							Icon={ImageUp}
-							onChange={field.onChange}
 						/>
 					)}
 				/>

@@ -64,8 +64,8 @@ export function NavBar({}: Props) {
 					<PermissionGuard permanent={isAuth}>
 						<div className='flex items-center justify-end gap-1'>
 							<Button
-								size='small'
-								type_style='gray'
+								size='medium'
+								type_style='secondary'
 								className='h-[32px]'
 								Icon={Plus}
 								onClick={() => {

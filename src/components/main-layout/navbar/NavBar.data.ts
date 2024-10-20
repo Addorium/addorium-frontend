@@ -1,11 +1,13 @@
+import { MAIN_PAGES } from '@/config/pages-url.config'
+
 export interface INavBarItem {
 	label: string
 	href: string
 }
 
 export const NAVBAR_ITEMS: INavBarItem[] = [
-	{ label: 'Scripts', href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-	{ label: 'Blueprints', href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-	{ label: 'Themes', href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-	{ label: 'Packs', href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+	{ label: 'Scripts', href: MAIN_PAGES.SCRIPTS },
+	{ label: 'Blueprints', href: MAIN_PAGES.BLUEPRINTS },
+	{ label: 'Themes', href: MAIN_PAGES.THEMES },
+	{ label: 'Packs', href: MAIN_PAGES.PACKS },
 ]

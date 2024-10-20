@@ -62,7 +62,11 @@ const Modal: FC<ModalProps> = ({
 								</Button>
 							)}
 							{saveButton && (
-								<Button type_style='core' onClick={onSave} className='min-w-28'>
+								<Button
+									type_style='primary'
+									onClick={onSave}
+									className='min-w-28'
+								>
 									{saveButton}
 								</Button>
 							)}

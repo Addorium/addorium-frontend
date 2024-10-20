@@ -1,4 +1,4 @@
-import { ProjectType } from '@/types/project.types'
+import { ProjectStatus, ProjectType } from '@/types/project.types'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useState } from 'react'
 
@@ -9,8 +9,6 @@ interface IUseUserFilterReturn {
 	setOrderBy?: (value: string) => void
 	orderDirection?: 'asc' | 'desc'
 	setOrderDirection?: (value: 'asc' | 'desc') => void
-	projectType?: ProjectType
-	setProjectType?: (value: ProjectType) => void
 	currentPage?: number
 	setCurrentPage?: (value: number) => void
 }
@@ -19,6 +17,7 @@ interface IUseUserFilterProps {
 	initialOrderBy?: string
 	initialOrderDirection?: 'asc' | 'desc'
 	initialProjectType?: ProjectType
+	initialProjectStatus?: ProjectStatus
 	initialPage?: number
 	debounceTime?: number
 }
@@ -28,6 +27,7 @@ export function useFilter({
 	initialOrderBy,
 	initialOrderDirection,
 	initialProjectType,
+	initialProjectStatus,
 	initialPage,
 	debounceTime = 400,
 }: IUseUserFilterProps): IUseUserFilterReturn {
@@ -37,7 +37,6 @@ export function useFilter({
 	const [orderDirection, setOrderDirection] = useState<
 		'asc' | 'desc' | undefined
 	>(initialOrderDirection)
-	const [projectType, setProjectType] = useState(initialProjectType)
 	const [currentPage, setCurrentPage] = useState(initialPage)
 	const debouncedSearchTerm = useDebounce(search, debounceTime)
 
@@ -48,8 +47,6 @@ export function useFilter({
 		setOrderBy,
 		orderDirection,
 		currentPage,
-		projectType,
-		setProjectType,
 		setCurrentPage,
 		setOrderDirection,
 	}

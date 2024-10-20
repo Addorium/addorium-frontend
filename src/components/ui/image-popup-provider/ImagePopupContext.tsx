@@ -10,10 +10,6 @@ interface ImagePopupContextType {
 
 export interface ImagePopupOptions {
 	galeryImage: GalleryImage
-	confirmText?: string
-	cancelText?: string
-	onConfirm: () => void
-	onCancel?: () => void
 }
 
 const ImagePopupContext = createContext<ImagePopupContextType | undefined>(
@@ -50,15 +46,7 @@ export const ImagePopupProvider: FC<ImagePopupProviderProps> = ({
 	return (
 		<ImagePopupContext.Provider value={{ showPopup, hidePopup }}>
 			{children}
-			{popupOptions && (
-				<ImagePopup
-					galeryImage={popupOptions.galeryImage}
-					confirmText={popupOptions.confirmText}
-					cancelText={popupOptions.cancelText}
-					onConfirm={popupOptions.onConfirm}
-					onCancel={popupOptions.onCancel || hidePopup}
-				/>
-			)}
+			{popupOptions && <ImagePopup galeryImage={popupOptions.galeryImage} />}
 		</ImagePopupContext.Provider>
 	)
 }

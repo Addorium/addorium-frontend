@@ -7,6 +7,7 @@ class MAIN {
 	SCRIPTS = `${this.root}scripts`
 	BLUEPRINTS = `${this.root}blueprints`
 	THEMES = `${this.root}themes`
+	PACKS = `${this.root}packs`
 
 	BLUEPRINT_SLUG(slug: string): string {
 		return `${this.BLUEPRINTS}/${slug}`

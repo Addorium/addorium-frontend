@@ -36,7 +36,7 @@ const COLUMNS: Column<CustomNode>[] = [
 		renderCell: item => (
 			<div className='flex justify-end'>
 				<LinkButton
-					size='small'
+					size='icon'
 					Icon={Pencil}
 					className='w-fit'
 					type_style='dark'
@@ -143,7 +143,7 @@ export function Roles() {
 								setOrderDirection(orderDirection === 'asc' ? 'desc' : 'asc')
 						}}
 					/>
-					<Button size='small' type_style='core' Icon={Plus}>
+					<Button size='medium' type_style='primary' Icon={Plus}>
 						Create role
 					</Button>
 				</div>

@@ -10,9 +10,11 @@ import {
 } from '@/components/ui/form/type-slider/TypeSlider'
 import { useModal } from '@/components/ui/modal-provider/ModalContext'
 import { MAIN_PAGES } from '@/config/pages-url.config'
+import { useRevalidateAllQueries } from '@/hooks/useRevalidate'
 import { projectService } from '@/services/project.service'
 import { IProjectsCreateProps } from '@/types/project.types'
 import { useMutation } from '@tanstack/react-query'
+import { Check, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { slug as urlSlug } from 'slug-gen'
@@ -33,6 +35,7 @@ const visibilityOptions: CustomOption[] = [
 
 export function CreateProjectModal({}: CreateProjectModalProps) {
 	const { hideModal } = useModal()
+	const refetchAll = useRevalidateAllQueries()
 	const [currentUrl, setCurrentUrl] = useState<string>('')
 	const {
 		control,
@@ -49,6 +52,7 @@ export function CreateProjectModal({}: CreateProjectModalProps) {
 		onSuccess: () => {
 			hideModal()
 			toast.success('Project created')
+			refetchAll()
 		},
 		onError: (error: any) => {
 			toast.error('Error creating project', {
@@ -156,19 +160,21 @@ export function CreateProjectModal({}: CreateProjectModalProps) {
 			<div className='flex gap-2 justify-end'>
 				<Button
 					size='normal'
-					type_style='transperent'
+					type_style='transperent_red'
 					onClick={() => {
 						hideModal()
 					}}
+					Icon={X}
 				>
 					Cancel
 				</Button>
 				<Button
 					size='normal'
-					type_style='core'
+					type_style='primary'
 					onClick={handleSubmit(onSubmit)}
+					Icon={Check}
 				>
-					Submit
+					Create
 				</Button>
 			</div>
 		</div>

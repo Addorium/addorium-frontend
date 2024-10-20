@@ -10,7 +10,8 @@ export interface IProject {
 	visibility: ProjectVisibility
 	status: ProjectStatus
 	icon: string
-	banner: string
+	bannerId: number
+	banner: GalleryImage
 	description: string
 	categoryId: number
 	category: ICategory
@@ -39,6 +40,8 @@ export interface IProjectsGetProps {
 	page?: number
 	orderBy?: string
 	orderDirection?: 'asc' | 'desc'
+	projectStatus?: ProjectStatus
+	projectType?: ProjectType
 	search?: string
 	ownerId?: number
 }

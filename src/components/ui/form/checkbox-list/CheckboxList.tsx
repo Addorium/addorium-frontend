@@ -16,6 +16,7 @@ interface CheckboxListProps {
 	maxValue?: number
 	description?: string
 	important?: boolean
+	disabled?: boolean
 }
 
 export default function CheckboxList({
@@ -27,6 +28,7 @@ export default function CheckboxList({
 	description,
 	important,
 	maxValue,
+	disabled,
 }: CheckboxListProps) {
 	const [checked, setChecked] = useState<CheckboxOption[]>(defaultValues || [])
 
@@ -83,6 +85,7 @@ export default function CheckboxList({
 								checkedValue => checkedValue.value === checkbox.value
 							)}
 							disabled={
+								disabled ||
 								!!(
 									isMulti &&
 									maxValue &&

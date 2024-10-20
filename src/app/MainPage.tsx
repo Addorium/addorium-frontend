@@ -26,7 +26,7 @@ export default function MainPage() {
 				</LinkButton>
 				<LinkButton
 					href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-					type_style='bordered'
+					type_style='line_secondary'
 					size='large'
 					Icon={Link}
 				>

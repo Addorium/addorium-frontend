@@ -3,13 +3,14 @@
 import { useQuery } from '@tanstack/react-query'
 import { ArrowDownUp, ArrowUpDown, Pencil, Search } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import Button from '@/components/ui/form/buttons/Button'
 import LinkButton from '@/components/ui/form/buttons/LinkButton'
 import { InputField } from '@/components/ui/form/fields/TextField'
 import { CustomOption } from '@/components/ui/form/select/select-field,types'
 import { SelectField } from '@/components/ui/form/select/SelectField'
+import Toggle from '@/components/ui/form/toggle/Toggle'
 import { Heading } from '@/components/ui/Heading'
 import SimpleProjectIcon from '@/components/ui/icons/project-icon/SimpleProjectIcon'
 import PaginatorWraper from '@/components/ui/paginator/PaginatorWraper'
@@ -90,7 +91,7 @@ const COLUMNS: Column<CustomNode>[] = [
 		renderCell: item => (
 			<div className='flex justify-end'>
 				<LinkButton
-					size='small'
+					size='icon'
 					Icon={Pencil}
 					className='w-fit'
 					type_style='dark'
@@ -115,6 +116,7 @@ export function Projects() {
 	const initialOrderDirection =
 		(searchParams.get('orderDirection') as 'asc' | 'desc') || 'asc'
 	const initialPage = parseInt(searchParams.get('page') || '1')
+	const initialStatus = searchParams.get('projectStatus') || undefined // boolean
 
 	// Использование фильтров с начальными значениями
 	const {
@@ -132,6 +134,9 @@ export function Projects() {
 		initialOrderDirection,
 		initialPage,
 	})
+	const [projectStatus, setProjectStatus] = useState<ProjectStatus | undefined>(
+		initialStatus as ProjectStatus
+	)
 
 	// Обновляем URL при изменении фильтров
 	useEffect(() => {
@@ -139,11 +144,19 @@ export function Projects() {
 			search: debouncedSearchTerm || '',
 			orderBy: orderBy || '',
 			orderDirection: orderDirection || 'asc',
+			projectStatus: projectStatus || '',
 			page: page?.toString() || '1',
 		}).toString()
 
 		router.push(`?${query}`, { scroll: false }) // Отключение скролла при смене страницы
-	}, [debouncedSearchTerm, orderBy, orderDirection, page, router])
+	}, [
+		debouncedSearchTerm,
+		orderBy,
+		orderDirection,
+		page,
+		projectStatus,
+		router,
+	])
 
 	// Получаем данные о проектах
 	const { data, refetch, isLoading } = useQuery({
@@ -153,6 +166,7 @@ export function Projects() {
 				search: debouncedSearchTerm,
 				orderBy,
 				orderDirection,
+				projectStatus,
 				page,
 			}),
 	})
@@ -185,6 +199,7 @@ export function Projects() {
 		orderDirection,
 		page,
 		refetch,
+		projectStatus,
 		meta.currentPage,
 		setPage,
 	])
@@ -208,6 +223,7 @@ export function Projects() {
 				<div className='flex gap-2 items-center'>
 					<p className='text-gray-5 text-[16px]'>Sort by</p>
 					<SelectField
+						className='w-32'
 						options={options}
 						size='small'
 						defaultValue={
@@ -216,6 +232,14 @@ export function Projects() {
 						placeholder='Sort type'
 						onChange={selected => {
 							if (setOrderBy) setOrderBy(selected.value)
+						}}
+					/>
+					<Toggle
+						label='Moderation'
+						checked={projectStatus === 'MODERATION'}
+						onChange={e => {
+							console.log(e)
+							setProjectStatus(e ? 'MODERATION' : undefined)
 						}}
 					/>
 					<Button

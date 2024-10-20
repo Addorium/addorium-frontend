@@ -17,7 +17,7 @@ interface InputFieldProps {
 	errorText?: string
 	disabled?: boolean
 	onChange?: (text: string) => void
-	size?: 'small' | 'normal' | 'large'
+	size?: 'small' | 'medium' | 'normal' | 'large'
 	type?: 'password' | 'text' | 'number' | 'search'
 }
 
@@ -44,12 +44,16 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 	) => {
 		const [showPassword, setShowPassword] = useState(false)
 		const [value, setValue] = useState(defaultValue || '')
+		if (disabled) {
+			state = 'disabled'
+		}
 
 		useEffect(() => {
 			setValue(defaultValue || '')
 		}, [defaultValue])
 		const sizeStyle = {
 			small: 'h-[40px]',
+			medium: 'h-[42px]',
 			normal: 'h-[45px]',
 			large: 'h-[48px]',
 		}
@@ -59,7 +63,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 			warning: 'outline outline-1 outline-orange text-orange/50 bg-orange/15',
 			success: 'outline outline-1 outline-green bg-green/15',
 			default:
-				'hover:outline hover:outline-2 hover:outline-gray-200 focus-within:outline focus-within:outline-2 focus-within:outline-core-1',
+				'hover:outline hover:outline-1 hover:outline-gray-200 focus-within:outline focus-within:outline-1 focus-within:outline-core-1 hover:bg-background-5',
 		}
 		const typedInputStyle = {
 			disabled: 'text-gray-1/50',
@@ -75,7 +79,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 			success: 'group-focus-within:text-green',
 			default: 'group-focus-within:text-gray-1',
 		}
-		const divStyle = `group flex justify-start items-center transition-all bg-background-5 py-2 gap-3 px-3 text-gray-2 rounded-2xl ${sizeStyle[size]} ${className} ${typedDivStyle[state]}`
+		const divStyle = `group flex justify-start items-center transition-all bg-background-6 py-2 gap-3 px-3 text-gray-2 rounded-2xl ${sizeStyle[size]} ${className} ${typedDivStyle[state]}`
 		const inputStyle = `w-full bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-regular ${typedInputStyle[state]} ${sizeStyle[size]}`
 		const iconStyle = `${typedIconStyle[state]}`
 
@@ -96,7 +100,9 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 						)}
 						<div className='flex w-full justify-between items-center'>
 							{helperText && (
-								<span className='text-gray-6 text-sm text-nowrap'>
+								<span
+									className={`text-sm text-nowrap ${typedInputStyle[state]}`}
+								>
 									{helperText}
 								</span>
 							)}
@@ -112,7 +118,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 								className={inputStyle}
 								{...rest}
 								placeholder={placeholder}
-								disabled={state === 'disabled'}
+								disabled={disabled}
 								id={id}
 								type={type === 'password' && showPassword ? 'text' : type}
 							/>

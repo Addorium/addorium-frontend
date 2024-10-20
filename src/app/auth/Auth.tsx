@@ -25,19 +25,21 @@ export function Auth() {
 					<div className='flex items-center gap-2 justify-center'>
 						<Button
 							type='submit'
-							type_style='light_gray'
-							size='large'
+							type_style='tertiary'
+							size='normal'
 							className='w-full'
 							iconurl='/discord.svg'
+							width='w-full'
 						>
 							Discord
 						</Button>
 						<Button
 							type='submit'
-							type_style='light_gray'
-							size='large'
+							type_style='tertiary'
+							size='normal'
 							className='w-full'
 							iconurl='/google.svg'
+							width='w-full'
 							disabled
 						>
 							Google

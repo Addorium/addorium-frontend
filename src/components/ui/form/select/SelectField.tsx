@@ -6,7 +6,7 @@ import { useOnClickOutside } from 'usehooks-ts'
 import { CustomOption, SelectFieldProps } from './select-field,types'
 
 const baseStyle =
-	'rounded-2xl px-4 py-2 text-sm cursor-pointer flex justify-between items-center bg-background-5 text-gray-1'
+	'rounded-2xl px-4 py-2 text-sm cursor-pointer flex justify-between items-center bg-background-6 text-gray-1 hover:bg-background-5 transition-colors hover:outline-1 hover:outline hover:outline-gray-2'
 const sizeStyles = {
 	small: 'h-[40px]',
 	medium: 'h-[48px]',
@@ -17,13 +17,14 @@ export const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
 	(
 		{
 			options,
-			className,
+			className = 'min-w-[256px]',
 			placeholder,
 			defaultValue,
 			onChange,
 			label,
 			important,
 			id,
+			disabled,
 			size = 'medium',
 		},
 		ref
@@ -46,26 +47,32 @@ export const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
 			<>
 				<div
 					className={clsx(
-						`relative min-w-64 flex flex-col justify-end gap-2`,
+						`relative flex flex-col justify-end gap-2`,
 						className
 					)}
 					ref={select}
 				>
 					{label && (
-						<label className='px-2 flex gap-1 text-[17px] text-gray-6 font-semibold'>
+						<label
+							className={`px-2 flex gap-1 text-[17px] text-gray-6 font-semibold `}
+						>
 							{label}
 							{important && <p className='text-red'>*</p>}
 						</label>
 					)}
 					<div
 						className={`${baseStyle} ${sizeStyles[size]} ${isOpen && 'border border-1 border-core-1'}`}
-						onClick={toggleDropdown}
+						onClick={() => {
+							if (!disabled) {
+								toggleDropdown()
+							}
+						}}
 					>
-						<span className='text-gray-6'>
+						<span className={`${disabled ? 'text-gray-1/50' : 'text-gray-6'}`}>
 							{selectedOption ? selectedOption.label : placeholder}
 						</span>
 						<span
-							className={`transform ${isOpen ? 'rotate-180' : 'rotate-0'} transition-transform`}
+							className={`transform ${isOpen ? 'rotate-180' : 'rotate-0'} transition-transform ${disabled ? 'text-gray-1/50' : 'text-gray-6'}`}
 						>
 							<ChevronDown />
 						</span>

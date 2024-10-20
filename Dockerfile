@@ -1,33 +1,68 @@
-# Stage 1: Builder
-FROM node:20.11.1-alpine AS builder
+# syntax=docker/dockerfile:1
 
+################################################################################
+# Create a stage for building the application.
+ARG NODE_VERSION=20.11.1
+FROM --platform=$BUILDPLATFORM node:${NODE_VERSION}-alpine AS build
+
+# Set working directory
 WORKDIR /app
 
-# Установка зависимостей
-COPY package*.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+# Install pnpm globally
+RUN npm install -g pnpm
 
-# Копирование исходного кода и сборка
+# Download dependencies as a separate step to take advantage of Docker's caching.
+# Leverage a cache mount to /root/.pnpm-store to speed up subsequent builds.
+# Leverage bind mounts to pnpm-lock.yaml and package.json to avoid having to copy them into
+# the container.
+COPY pnpm-lock.yaml ./
+COPY package.json ./
+RUN --mount=type=cache,target=/root/.pnpm-store \
+    pnpm install --frozen-lockfile
+
+# Copy the source code into the container and build the application
 COPY . .
-RUN yarn build
+RUN pnpm build
 
-# Stage 2: Production
-FROM node:20.11.1-alpine AS production
+################################################################################
+# Create a new stage for running the application that contains the minimal
+# runtime dependencies for the application.
+FROM node:${NODE_VERSION}-alpine AS final
 
+RUN npm install -g pnpm
+
+# Install any runtime dependencies needed to run the application.
+RUN apk --update add \
+    ca-certificates \
+    tzdata \
+    && update-ca-certificates
+
+# Create a non-privileged user to run the application.
+ARG UID=10001
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid "${UID}" \
+    appuser
+USER appuser
+
+# Set working directory
 WORKDIR /app
 
-# Копирование собранного приложения и установленных зависимостей
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
+# Copy the built application and node_modules from the build stage
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./package.json
+COPY --from=build /app/public ./public
 
-# Копирование остальных файлов (например, статических ресурсов)
-COPY --from=builder /app/public ./public
-
-# Установка переменной окружения для production
+# Set environment variable for production
 ENV NODE_ENV=production
 
-# Запуск приложения
-CMD ["yarn", "start"]
-
+# Expose the port the application listens on
 EXPOSE 3000
+
+# What the container should run when it is started
+CMD ["pnpm", "start"]

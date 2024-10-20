@@ -73,8 +73,6 @@ export function AdminTags() {
 
 	// Начальные значения фильтров
 	const initialSearch = searchParams.get('search') || ''
-	const initialProjectType =
-		(searchParams.get('type') as ProjectType) || 'BLUEPRINT'
 	const initialPage = parseInt(searchParams.get('page') || '1')
 
 	// Использование кастомного хука для фильтрации и сортировки
@@ -83,32 +81,28 @@ export function AdminTags() {
 		setSearch,
 		currentPage: page,
 		setCurrentPage: setPage,
-		projectType,
-		setProjectType,
 	} = useFilter({
 		initialSearch,
 		initialPage,
-		initialProjectType,
 	})
 
 	// Обновление URL без перезагрузки страницы при изменении фильтров
 	useEffect(() => {
 		const query = new URLSearchParams({
 			search: debouncedSearchTerm || '',
-			projectType: projectType || 'BLUEPRINT',
 			page: page?.toString() || '1',
 		}).toString()
 		router.push(`?${query}`, { scroll: false }) // Отключение скролла при смене страницы
-	}, [debouncedSearchTerm, page, router, projectType])
+	}, [debouncedSearchTerm, page, router])
 
 	// Запрос данных ролей
 	const { data, refetch, isLoading } = useQuery({
-		queryKey: ['tags', debouncedSearchTerm, page, projectType],
+		queryKey: ['tags', debouncedSearchTerm, page],
 		queryFn: () =>
 			tagsService.getAll({
 				search: debouncedSearchTerm,
 				page,
-				projectType,
+				projectType: 'BLUEPRINT',
 			}),
 	})
 
@@ -139,15 +133,15 @@ export function AdminTags() {
 					Icon={Search}
 					id='search'
 					placeholder='Search roles'
-					size='small'
+					size='medium'
 					onChange={value => {
 						if (setSearch) setSearch(value) // Проверяем, есть ли setSearch
 					}}
 				/>
 				<div className='flex gap-2 items-center'>
 					<Button
-						size='small'
-						type_style='core'
+						size='medium'
+						type_style='primary'
 						Icon={Plus}
 						onClick={() => {
 							showModal(tagModalProps)

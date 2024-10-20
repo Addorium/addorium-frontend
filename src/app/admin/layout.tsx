@@ -1,4 +1,6 @@
 import AdminLayout from '@/components/admin-layout/AdminLayout'
+import DashboardLoader from '@/components/ui/loader/DashboardLoader'
+import { Suspense } from 'react'
 
 export default function MainAdminLayout({
 	children,
@@ -7,7 +9,9 @@ export default function MainAdminLayout({
 }>) {
 	return (
 		<>
-			<AdminLayout>{children}</AdminLayout>
+			<Suspense fallback={<DashboardLoader />}>
+				<AdminLayout>{children}</AdminLayout>
+			</Suspense>
 		</>
 	)
 }

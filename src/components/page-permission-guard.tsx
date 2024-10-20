@@ -1,6 +1,6 @@
-// PagePermissionGuard.tsx
-'use client'
+import { hasPermission } from '@/services/role.service'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import MiniLoader from './ui/loader/mini-loader/mini-loader'
 
 interface PagePermissionGuardProps {
@@ -23,68 +23,27 @@ const PagePermissionGuard: React.FC<PagePermissionGuardProps> = ({
 	loaderComponent,
 }) => {
 	const router = useRouter()
-	isLoading = isLoading
+	const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null)
+
+	useEffect(() => {
+		if (!isLoading) {
+			if (
+				permanent ||
+				(userPermissions &&
+					hasPermission(userPermissions, requiredPermission || ''))
+			) {
+				setIsAuthorized(true)
+			} else {
+				router.replace(re)
+			}
+		}
+	}, [isLoading, userPermissions, requiredPermission, router, re])
+
 	if (isLoading) {
-		return <div className=''>{loaderComponent || <MiniLoader />}</div>
-	}
-	if (permanent) {
-		return <>{children}</>
+		return <div>{loaderComponent || <MiniLoader />}</div>
 	}
 
-	if (!requiredPermission) {
-		router.replace(re)
-		return
-	}
-
-	if (!userPermissions || !hasPermission(userPermissions, requiredPermission)) {
-		router.replace(re)
-	}
-
-	return <>{children}</>
-}
-
-function hasPermission(
-	userPermissions: string[],
-	requiredPermission: string
-): boolean {
-	const permissionParts = requiredPermission.split('.')
-	const permissionModificator = permissionParts[0].split(':')[0]
-	permissionParts[0] = permissionParts[0].split(':')[1]
-	for (const userPermission of userPermissions) {
-		const userPermissionParts = userPermission.split('.')
-		const result = matchPermissionParts(
-			userPermissionParts,
-			permissionParts,
-			permissionModificator
-		)
-		if (result) {
-			return true
-		}
-	}
-	return false
-}
-
-function matchPermissionParts(
-	userPermissionParts: string[],
-	permissionParts: string[],
-	permissionModificator: string
-): boolean {
-	const userModificator = userPermissionParts[0].split(':')[0]
-	userPermissionParts[0] = userPermissionParts[0].split(':')[1]
-
-	if (userModificator === 'users' && permissionModificator === 'admin') {
-		return false
-	}
-
-	for (let i = 0; i < permissionParts.length; i++) {
-		if (userPermissionParts[i] === '*') {
-			return true
-		}
-		if (userPermissionParts[i] !== permissionParts[i]) {
-			return false
-		}
-	}
-	return userPermissionParts.length === permissionParts.length
+	return isAuthorized ? <>{children}</> : null
 }
 
 export default PagePermissionGuard

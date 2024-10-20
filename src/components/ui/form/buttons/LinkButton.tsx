@@ -7,7 +7,7 @@ import { baseStyles, CustomLinkButtonProps, iconSize } from './buttons-styles'
 const LinkButton: React.FC<CustomLinkButtonProps> = ({
 	className,
 	children,
-	type_style = 'core',
+	type_style = 'primary',
 	size = 'normal',
 	Icon,
 	onlyIcon = false,
@@ -21,7 +21,7 @@ const LinkButton: React.FC<CustomLinkButtonProps> = ({
 			{Icon && <Icon className={`${iconSize} ${!onlyIcon ? 'mr-1.5' : ''}`} />}
 			{rest.iconurl && (
 				<img
-					className={`${iconSize} ${!onlyIcon ? 'mr-1.5' : ''} ${!rest.disabled ?? 'opacity-15'}`}
+					className={`${iconSize} ${!onlyIcon ? 'mr-1.5' : ''} ${!rest.disabled ? '' : 'opacity-15'}`}
 					src={rest.iconurl}
 					alt='icon'
 				/>

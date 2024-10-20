@@ -8,14 +8,17 @@ import CheckboxList, {
 import { Heading } from '@/components/ui/Heading'
 import SimpleCategoryIcon from '@/components/ui/icons/category-icon/SimpleCategoryIcon'
 import SimpleTagIcon from '@/components/ui/icons/tag-icon/SimpleTagIcon'
+import { useProfile } from '@/hooks/useProfile'
 import { categoriesService } from '@/services/categories.service'
-import { projectService } from '@/services/project.service'
+import { canEditInModeration, projectService } from '@/services/project.service'
 import { tagsService } from '@/services/tags.service'
 import {
 	getProjectTypeFromStr,
+	IProject,
 	IProjectsUpdateProps,
 	ProjectType,
 } from '@/types/project.types'
+import { IUser } from '@/types/user.types'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
@@ -24,6 +27,7 @@ export default function Tags({
 }: {
 	params: { type: string; slug: string }
 }) {
+	const { data: user } = useProfile()
 	const { data: project, isLoading } = useQuery({
 		queryKey: ['project', params.slug],
 		queryFn: () => {
@@ -52,6 +56,7 @@ export default function Tags({
 			toast.error('Error!', { description: errorCatch(error) })
 		},
 	})
+	const isDisabled = !canEditInModeration(user as IUser, project as IProject)
 
 	const handleUpdateCategory = (categorie: CheckboxOption[]) => {
 		if (!project) return
@@ -104,6 +109,7 @@ export default function Tags({
 				<LoaderLayout loading={isLoading}>
 					<div className='flex flex-col gap-4'>
 						<CheckboxList
+							disabled={isDisabled}
 							label='Categorie'
 							description='Select categorie that reflect the themes of your project'
 							checkboxes={categoriesData}
@@ -113,6 +119,7 @@ export default function Tags({
 							}}
 						/>
 						<CheckboxList
+							disabled={isDisabled}
 							label='Tags'
 							description='Select all tags that reflect the themes or function of your project.'
 							checkboxes={tagsData}

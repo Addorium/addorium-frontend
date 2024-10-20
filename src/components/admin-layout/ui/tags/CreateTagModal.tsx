@@ -130,7 +130,7 @@ export function CreateTagModal({}: CreateTagModalProps) {
 				</Button>
 				<Button
 					size='normal'
-					type_style='core'
+					type_style='primary'
 					onClick={handleSubmit(onSubmit)}
 				>
 					Submit

@@ -12,8 +12,12 @@ import SimpleProjectIcon from './SimpleProjectIcon'
 
 interface IUpdateProjectIcon {
 	project: IProject | undefined
+	disabled?: boolean
 }
-const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({ project }) => {
+const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({
+	project,
+	disabled,
+}) => {
 	if (!project) {
 		return null
 	}
@@ -64,9 +68,11 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({ project }) => {
 				<div>
 					<SimpleProjectIcon isLoading={false} name={project.icon} width={90} />
 				</div>
-				<div className='flex flex-col gap-2 justify-center'>
+				<div className='flex flex-col gap-2 justify-center w-fit'>
 					<Button
-						size='small'
+						disabled={disabled}
+						className='w-full'
+						size='medium'
 						type_style='dark'
 						Icon={Upload}
 						onClick={() => {
@@ -76,7 +82,9 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({ project }) => {
 						Upload Image
 					</Button>
 					<Button
-						size='small'
+						disabled={disabled}
+						className='w-full'
+						size='medium'
 						type_style='red'
 						Icon={Trash2}
 						onClick={() => {
@@ -86,6 +94,7 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({ project }) => {
 						Clear Image
 					</Button>
 					<input
+						disabled={disabled}
 						type='file'
 						className='hidden'
 						ref={inputFile}

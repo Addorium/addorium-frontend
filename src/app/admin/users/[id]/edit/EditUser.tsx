@@ -186,7 +186,7 @@ export function UserEdit({ userId }: { userId: string }) {
 									type='button'
 									size='large'
 									className='w-32'
-									type_style='core'
+									type_style='primary'
 									onClick={() => {
 										showPopup(popupOptions)
 									}}

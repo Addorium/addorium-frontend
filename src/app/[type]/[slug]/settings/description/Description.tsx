@@ -16,8 +16,10 @@ import {
 import Button from '@/components/ui/form/buttons/Button'
 import { Heading } from '@/components/ui/Heading'
 import BasicSkeleton from '@/components/ui/loader/skeleton/BasicSkeleton'
-import { projectService } from '@/services/project.service'
-import { IProjectsUpdateProps } from '@/types/project.types'
+import { useProfile } from '@/hooks/useProfile'
+import { canEditInModeration, projectService } from '@/services/project.service'
+import { IProject, IProjectsUpdateProps } from '@/types/project.types'
+import { IUser } from '@/types/user.types'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Save } from 'lucide-react'
 import { useState } from 'react'
@@ -28,6 +30,7 @@ export default function DescriptionEdit({
 }: {
 	params: { type: string; slug: string }
 }) {
+	const { data: user } = useProfile()
 	const { data: project, isLoading } = useQuery({
 		queryKey: ['project', params.slug],
 		queryFn: () => {
@@ -67,6 +70,7 @@ export default function DescriptionEdit({
 					loaderComponent={<BasicSkeleton height='465px' />}
 				>
 					<MarkdownEditor
+						disabled={!canEditInModeration(user as IUser, project as IProject)}
 						onChange={value => {
 							setDescription(value)
 						}}
@@ -85,12 +89,16 @@ export default function DescriptionEdit({
 				</LoaderLayout>
 				<div>
 					<Button
-						size='small'
+						size='medium'
+						type_style='primary'
 						Icon={Save}
 						onClick={() => {
 							handleSave()
 						}}
-						disabled={isLoading}
+						disabled={
+							isLoading ||
+							!canEditInModeration(user as IUser, project as IProject)
+						}
 					>
 						Save changes
 					</Button>

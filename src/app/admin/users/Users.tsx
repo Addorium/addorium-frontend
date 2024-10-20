@@ -60,7 +60,7 @@ const COLUMNS: Column<CustomNode>[] = [
 		renderCell: item => (
 			<div className='flex justify-end'>
 				<LinkButton
-					size='small'
+					size='icon'
 					Icon={Pencil}
 					className='w-fit'
 					type_style='dark'

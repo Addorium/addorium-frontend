@@ -5,6 +5,7 @@ interface ToggleProps {
 	onChange: (checked: boolean) => void
 	label?: string
 	important?: boolean
+	disabled?: boolean
 }
 
 const Toggle: React.FC<ToggleProps> = ({
@@ -12,6 +13,7 @@ const Toggle: React.FC<ToggleProps> = ({
 	onChange,
 	label,
 	important,
+	disabled,
 }) => {
 	const [enabled, setEnabled] = useState<boolean>(checked)
 
@@ -22,10 +24,12 @@ const Toggle: React.FC<ToggleProps> = ({
 	return (
 		<div className='flex gap-2 items-center'>
 			<div
-				className={`relative inline-flex items-center h-3 w-11 rounded-full transition-colors cursor-pointer ${
+				className={`relative inline-flex items-center h-3 w-11 rounded-full transition-colors ${disabled ? '' : 'cursor-pointer'} ${
 					enabled ? 'bg-core-1/30' : 'bg-gray-2'
 				}`}
-				onClick={() => setEnabled(!enabled)}
+				onClick={() => {
+					if (!disabled) setEnabled(!enabled)
+				}}
 			>
 				<span
 					className={`${

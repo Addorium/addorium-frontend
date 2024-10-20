@@ -51,17 +51,13 @@ const Popup: FC<PopupProps> = ({
 				)}
 				<div className='flex justify-between space-x-2'>
 					{onCancel && (
-						<Button
-							onClick={onCancel}
-							type_style='transperent'
-							className='min-w-28'
-						>
+						<Button onClick={onCancel} type_style='red' className='min-w-28'>
 							{cancelText}
 						</Button>
 					)}
 					<Button
 						onClick={onConfirm}
-						type_style={type === 'link' ? 'green' : 'core'}
+						type_style={type === 'link' ? 'green' : 'primary'}
 						className='min-w-28'
 					>
 						{confirmText}

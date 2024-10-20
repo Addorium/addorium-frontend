@@ -111,3 +111,12 @@ export function useProjectRevalidate(): IProjectRevalidate {
 		refreshQueries,
 	}
 }
+export const useRevalidateAllQueries = () => {
+	const queryClient = useQueryClient()
+
+	const revalidateAll = () => {
+		queryClient.invalidateQueries()
+	}
+
+	return revalidateAll
+}

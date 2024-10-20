@@ -104,6 +104,9 @@ importers:
       remark-behead:
         specifier: ^3.1.0
         version: 3.1.0
+      remark-gfm:
+        specifier: ^4.0.0
+        version: 4.0.0
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0

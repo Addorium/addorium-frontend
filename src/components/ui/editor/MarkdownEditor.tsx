@@ -15,6 +15,7 @@ interface MarkdownEditorProps {
 	onChange: (value: string) => void
 	value?: string
 	plugins: MarkdownPlugin[]
+	disabled?: boolean
 }
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
@@ -23,6 +24,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 	onChange,
 	value,
 	plugins,
+	disabled,
 }) => {
 	const [markdown, setMarkdown] = useState<string>(value || '')
 	useEffect(() => {
@@ -40,7 +42,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 	const [markdownManager, setMarkdownManager] = React.useState<MarkdownManager>(
 		new MarkdownManager()
 	)
-	const [isPrewiew, setIsPreview] = React.useState(false)
+	const [isPrewiew, setIsPreview] = React.useState(disabled || false)
 
 	// Состояние для категорий
 	const [categories, setCategories] = React.useState(
@@ -58,9 +60,10 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 				<EditorToolbar
 					categories={categories} // Передаем актуальные категории
 					textWrapper={textWrapper}
-					disabled={isPrewiew}
+					disabled={isPrewiew || disabled}
 				/>
 				<Toggle
+					disabled={disabled}
 					onChange={enabled => {
 						setIsPreview(enabled)
 					}}
@@ -76,6 +79,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 				) : (
 					<div className='flex flex-col'>
 						<textarea
+							disabled={disabled}
 							ref={textAreaRef}
 							className='w-full h-fit min-h-96 p-4 bg-background-6 rounded-2xl hover:outline-1 hover:outline-gray-2 focus-within:outline focus-within:outline-core-1 transition-all'
 							placeholder={placeholder}

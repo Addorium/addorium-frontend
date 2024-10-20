@@ -199,7 +199,7 @@ export default function UserProject() {
 			renderCell: item => (
 				<div className='flex justify-end'>
 					<LinkButton
-						size='small'
+						size='icon'
 						Icon={Pencil}
 						className='w-fit'
 						type_style='dark'
@@ -229,8 +229,8 @@ export default function UserProject() {
 					description='You can create content pack selecting content and clicked "Make pack".'
 				/>
 				<Button
-					size='small'
-					type_style='core'
+					size='medium'
+					type_style='primary'
 					Icon={Plus}
 					onClick={() => {
 						showModal(modalOptions)
@@ -241,7 +241,7 @@ export default function UserProject() {
 			</div>
 			<div className='flex justify-between items-center w-full'>
 				<div className='flex justify-center'>
-					<Button size='small' type_style='dark' Icon={Edit}>
+					<Button size='medium' type_style='dark' Icon={Edit}>
 						Make pack
 					</Button>
 				</div>

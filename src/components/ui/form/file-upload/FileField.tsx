@@ -47,7 +47,7 @@ export const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
 			warning: 'outline outline-1 outline-orange text-orange/50 bg-orange/15',
 			success: 'outline outline-1 outline-green bg-green/15',
 			default:
-				'hover:outline hover:outline-2 hover:outline-gray-200 focus-within:outline focus-within:outline-2 focus-within:outline-core-1',
+				'hover:outline hover:outline-2 hover:outline-gray-2 focus-within:outline focus-within:outline-2 focus-within:outline-core-1 hover:bg-background-5',
 		}
 		const typedInputStyle = {
 			disabled: 'text-gray-1/50',
@@ -67,7 +67,7 @@ export const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
 		// Стили для скрытого input[type="file"] и кастомного отображения
 		const hiddenFileInputStyle = 'hidden'
 
-		const divStyle = `cursor-pointer group flex justify-start items-center transition-all bg-background-5 py-2 gap-3 px-3 text-gray-2 rounded-2xl ${sizeStyle[size]} ${className} ${typedDivStyle[state]}`
+		const divStyle = `cursor-pointer group flex justify-start items-center transition-all bg-background-6 py-2 gap-3 px-3 text-gray-2 rounded-2xl ${sizeStyle[size]} ${className} ${typedDivStyle[state]}`
 		const inputStyle = `cursor-pointer w-full flex items-center bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-regular ${typedInputStyle[state]} ${sizeStyle[size]}`
 		const iconStyle = `${typedIconStyle[state]}`
 

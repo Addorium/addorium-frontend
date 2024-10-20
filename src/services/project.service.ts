@@ -6,6 +6,8 @@ import {
 	IProjectsGetProps,
 	IProjectsUpdateProps,
 } from '@/types/project.types'
+import { IUser } from '@/types/user.types'
+import { hasPermission } from './role.service'
 
 class ProjectService {
 	private BASE_URL = '/projects'
@@ -86,3 +88,27 @@ class ProjectService {
 }
 
 export const projectService = new ProjectService()
+
+export const canEditInModeration = (user: IUser, project: IProject) => {
+	if (!user) return false
+	if (!user.role) return false
+	const userHasPermission = hasPermission(
+		user?.role?.permissions,
+		'admin:projects.update'
+	)
+
+	if (project?.status === 'DRAFT') {
+		return true
+	}
+	if (project?.status === 'PUBLISHED') {
+		return true
+	}
+	if (project?.status === 'MODERATION') {
+		if (userHasPermission) {
+			return true
+		} else {
+			return false
+		}
+	}
+	return false
+}
