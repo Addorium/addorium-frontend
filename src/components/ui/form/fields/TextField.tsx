@@ -52,10 +52,10 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 			setValue(defaultValue || '')
 		}, [defaultValue])
 		const sizeStyle = {
-			small: 'h-[40px]',
+			small: 'h-[32px]',
 			medium: 'h-[42px]',
-			normal: 'h-[45px]',
-			large: 'h-[48px]',
+			normal: 'h-[50px]',
+			large: 'h-[60px]',
 		}
 		const typedDivStyle = {
 			disabled: '',

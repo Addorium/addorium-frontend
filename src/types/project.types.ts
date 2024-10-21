@@ -6,6 +6,7 @@ import { IUser } from './user.types'
 export interface IProject {
 	id: number
 	name: string
+	summary: string
 	slug: string
 	visibility: ProjectVisibility
 	status: ProjectStatus
@@ -32,6 +33,7 @@ export type ProjectType = 'BLUEPRINT' | 'SCRIPT' | 'THEME'
 export interface IProjectsCreateProps {
 	type: ProjectType
 	name: string
+	summary: string
 	slug: string
 	visibility: ProjectVisibility
 	ownerId: number
@@ -45,10 +47,17 @@ export interface IProjectsGetProps {
 	search?: string
 	ownerId?: number
 }
+export interface IProjectsGetAllProps {
+	page?: number
+	perPage?: number
+	orderBy?: string
+	search?: string
+}
 
 export interface IProjectsUpdateProps {
 	id: number
 	name?: string
+	summary?: string
 	slug?: string
 	visibility?: ProjectVisibility
 	status?: ProjectStatus

@@ -12,7 +12,7 @@ import { canEditInModeration, projectService } from '@/services/project.service'
 import { IProject, IProjectsUpdateProps } from '@/types/project.types'
 import { IUser } from '@/types/user.types'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { Trash2 } from 'lucide-react'
+import { Pen } from 'lucide-react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
@@ -114,7 +114,7 @@ export default function ProjectStatus({ slug }: { slug: string }) {
 					}
 					type_style='primary'
 					size='medium'
-					Icon={Trash2}
+					Icon={Pen}
 					onClick={() => {
 						showPopup(popupOptions)
 					}}

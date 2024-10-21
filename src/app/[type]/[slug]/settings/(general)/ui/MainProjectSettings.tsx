@@ -75,6 +75,7 @@ export default function MainProjectSettings({ slug }: { slug: string }) {
 			name: project?.name,
 			type: project?.type,
 			slug: project?.slug,
+			summary: project?.summary,
 		},
 	})
 	const [type] = watch(['type'])
@@ -146,7 +147,6 @@ export default function MainProjectSettings({ slug }: { slug: string }) {
 									render={({ field }) => (
 										<InputField
 											disabled={field.disabled}
-											size='large'
 											label='Name'
 											important
 											id='project-name'
@@ -156,6 +156,26 @@ export default function MainProjectSettings({ slug }: { slug: string }) {
 											defaultValue={field.value}
 											state={errors.name ? 'error' : 'default'}
 											stateText={errors.name?.message}
+										/>
+									)}
+								/>
+								<Controller
+									name='summary'
+									control={control}
+									defaultValue={project?.summary}
+									rules={{ required: 'Summary is required' }}
+									render={({ field }) => (
+										<InputField
+											disabled={field.disabled}
+											label='Summary'
+											important
+											id='project-summary'
+											placeholder='Enter project summary'
+											className='w-72'
+											onChange={field.onChange}
+											defaultValue={field.value}
+											state={errors.summary ? 'error' : 'default'}
+											stateText={errors.summary?.message}
 										/>
 									)}
 								/>
@@ -214,7 +234,6 @@ export default function MainProjectSettings({ slug }: { slug: string }) {
 									render={({ field }) => (
 										<InputField
 											disabled={field.disabled}
-											size='large'
 											label='Url'
 											id='url'
 											helperText={

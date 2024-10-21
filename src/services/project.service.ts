@@ -3,8 +3,10 @@ import { PaginatedResponse } from '@/types/paginated.types'
 import {
 	IProject,
 	IProjectsCreateProps,
+	IProjectsGetAllProps,
 	IProjectsGetProps,
 	IProjectsUpdateProps,
+	ProjectType,
 } from '@/types/project.types'
 import { IUser } from '@/types/user.types'
 import { hasPermission } from './role.service'
@@ -17,6 +19,18 @@ class ProjectService {
 			this.BASE_URL,
 			{
 				params: {
+					...query,
+				},
+			}
+		)
+		return response.data
+	}
+	async getAllType(projectType: ProjectType, query: IProjectsGetAllProps) {
+		const response = await axiosClassic.get<PaginatedResponse<IProject>>(
+			this.BASE_URL + '/all',
+			{
+				params: {
+					projectType: projectType,
 					...query,
 				},
 			}

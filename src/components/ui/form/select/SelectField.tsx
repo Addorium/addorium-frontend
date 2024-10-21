@@ -6,11 +6,12 @@ import { useOnClickOutside } from 'usehooks-ts'
 import { CustomOption, SelectFieldProps } from './select-field,types'
 
 const baseStyle =
-	'rounded-2xl px-4 py-2 text-sm cursor-pointer flex justify-between items-center bg-background-6 text-gray-1 hover:bg-background-5 transition-colors hover:outline-1 hover:outline hover:outline-gray-2'
+	'rounded-2xl px-4 py-2 text-sm cursor-pointer w-full flex justify-between items-center bg-background-6 text-gray-1 hover:bg-background-5 transition-colors hover:outline-1 hover:outline hover:outline-gray-2'
 const sizeStyles = {
-	small: 'h-[40px]',
-	medium: 'h-[48px]',
-	large: 'h-[64px]',
+	small: 'h-[32px]',
+	medium: 'h-[42px]',
+	normal: 'h-[50px]',
+	large: 'h-[60px]',
 }
 
 export const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
@@ -22,10 +23,11 @@ export const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
 			defaultValue,
 			onChange,
 			label,
+			labelPosition = 'top',
 			important,
 			id,
 			disabled,
-			size = 'medium',
+			size = 'normal',
 		},
 		ref
 	) => {
@@ -41,7 +43,9 @@ export const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
 		const handleOptionClick = (option: CustomOption) => {
 			setSelectedOption(option)
 			setIsOpen(false)
-			onChange(option)
+			if (onChange) {
+				onChange(option)
+			}
 		}
 		return (
 			<>
@@ -52,44 +56,56 @@ export const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
 					)}
 					ref={select}
 				>
-					{label && (
+					{label && labelPosition === 'top' && (
 						<label
-							className={`px-2 flex gap-1 text-[17px] text-gray-6 font-semibold `}
+							className={`px-2 flex gap-1 text-[17px] text-gray-6 font-semibold text-nowrap `}
 						>
 							{label}
 							{important && <p className='text-red'>*</p>}
 						</label>
 					)}
-					<div
-						className={`${baseStyle} ${sizeStyles[size]} ${isOpen && 'border border-1 border-core-1'}`}
-						onClick={() => {
-							if (!disabled) {
-								toggleDropdown()
-							}
-						}}
-					>
-						<span className={`${disabled ? 'text-gray-1/50' : 'text-gray-6'}`}>
-							{selectedOption ? selectedOption.label : placeholder}
-						</span>
-						<span
-							className={`transform ${isOpen ? 'rotate-180' : 'rotate-0'} transition-transform ${disabled ? 'text-gray-1/50' : 'text-gray-6'}`}
+					<div className='flex items-center w-full'>
+						{label && labelPosition === 'left' && (
+							<label
+								className={`px-2 flex gap-1 text-[17px] text-gray-6 font-semibold text-nowrap break-words`}
+							>
+								{label}
+								{important && <p className='text-red'>*</p>}
+							</label>
+						)}
+						<div
+							className={`${baseStyle} ${sizeStyles[size]} ${isOpen && 'border border-1 border-core-1 w-full'}`}
+							onClick={() => {
+								if (!disabled) {
+									toggleDropdown()
+								}
+							}}
 						>
-							<ChevronDown />
-						</span>
-					</div>
-					{isOpen && (
-						<div className='absolute max-h-52 overflow-auto flex-none w-full rounded-2xl border border-1 border-core-1 bg-background-5 z-10'>
-							{options.map((option, index) => (
-								<div
-									key={option.value}
-									className={`px-4 py-1.5 hover:bg-gray-1/15 cursor-pointer rounded-2xl text-gray-1`}
-									onClick={() => handleOptionClick(option)}
-								>
-									{option.label}
-								</div>
-							))}
+							<span
+								className={`${disabled ? 'text-gray-1/50' : 'text-gray-6'}`}
+							>
+								{selectedOption ? selectedOption.label : placeholder}
+							</span>
+							<span
+								className={`transform ${isOpen ? 'rotate-180' : 'rotate-0'} transition-transform ${disabled ? 'text-gray-1/50' : 'text-gray-6'}`}
+							>
+								<ChevronDown />
+							</span>
 						</div>
-					)}
+						{isOpen && (
+							<div className='absolute max-h-52 overflow-auto flex-none w-full rounded-2xl border border-1 border-core-1 bg-background-5 z-10'>
+								{options.map((option, index) => (
+									<div
+										key={option.value}
+										className={`px-4 py-1.5 hover:bg-gray-1/15 cursor-pointer rounded-2xl text-gray-1`}
+										onClick={() => handleOptionClick(option)}
+									>
+										{option.label}
+									</div>
+								))}
+							</div>
+						)}
+					</div>
 				</div>
 			</>
 		)

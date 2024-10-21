@@ -125,6 +125,21 @@ export function CreateProjectModal({}: CreateProjectModalProps) {
 					)}
 				/>
 				<Controller
+					name='summary'
+					control={control}
+					render={({ field }) => (
+						<InputField
+							size='large'
+							id='summary'
+							label='Summary'
+							important
+							placeholder='Project summary'
+							defaultValue={field.value}
+							onChange={field.onChange}
+						/>
+					)}
+				/>
+				<Controller
 					name='slug'
 					control={control}
 					render={({ field }) => (

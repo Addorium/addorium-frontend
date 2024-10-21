@@ -23,21 +23,23 @@ export default function PaginatorWraper({
 
 	return (
 		<>
-			{top && (
-				<Paginator
-					currentPage={currentPage}
-					totalPages={totalPages}
-					onPageChange={onPageChange}
-				/>
-			)}
-			{children}
-			{bottom && (
-				<Paginator
-					currentPage={currentPage}
-					totalPages={totalPages}
-					onPageChange={onPageChange}
-				/>
-			)}
+			<div className='flex flex-col gap-4'>
+				{top && (
+					<Paginator
+						currentPage={currentPage}
+						totalPages={totalPages}
+						onPageChange={onPageChange}
+					/>
+				)}
+				{children}
+				{bottom && (
+					<Paginator
+						currentPage={currentPage}
+						totalPages={totalPages}
+						onPageChange={onPageChange}
+					/>
+				)}
+			</div>
 		</>
 	)
 }
