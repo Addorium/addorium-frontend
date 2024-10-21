@@ -22,7 +22,7 @@ export default function ProjectView({
 			onClick={() => onClick && onClick(project)}
 		>
 			<div className='flex items-center'>
-				<SimpleProjectIcon name={project.icon} isLoading={false} width={100} />
+				<SimpleProjectIcon name={project.icon} isLoading={false} width={120} />
 			</div>
 			<div className='flex flex-col justify-between w-full'>
 				<div className='flex flex-col'>
