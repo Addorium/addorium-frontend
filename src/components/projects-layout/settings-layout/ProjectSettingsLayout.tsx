@@ -40,7 +40,7 @@ export default function LProjectSettings({
 		<PagePermissionGuard
 			isLoading={isLoading}
 			userPermissions={user?.role?.permissions}
-			requiredPermission='admin:project.update'
+			requiredPermission='admin:projects.update'
 			permanent={isUserProject}
 			redirectUrl='/'
 			loaderComponent={<DashboardLoader />}
