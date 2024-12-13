@@ -17,7 +17,7 @@ import PaginatorWraper from '@/components/ui/paginator/PaginatorWraper'
 import { Table } from '@/components/ui/table-component/Table'
 import { Column, Node } from '@/components/ui/table-component/Table.types'
 import { MAIN_PAGES, PROJECT_SETTINGS_PAGES } from '@/config/pages-url.config'
-import { useFilter } from '@/hooks/filters/useUserFilter'
+import { useProjectFilters } from '@/hooks/filters/projects/useProjectsFilter'
 import { projectService } from '@/services/project.service'
 import {
 	IProject,
@@ -29,7 +29,6 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { ArrowDownUp, ArrowUpDown, Edit, Pencil, Plus } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 interface CustomNode extends Node {
@@ -50,64 +49,34 @@ const options: CustomOption[] = [
 
 export default function UserProject() {
 	const { showModal } = useModal()
+	const { queryParams, isFilterUpdated, updateQueryParams } =
+		useProjectFilters()
 	const modalOptions: ModalOptions = {
 		title: 'Create project',
 		body: <CreateProjectModal />,
 	}
 
-	const router = useRouter()
-	const searchParams = useSearchParams()
-
 	// State for master checkbox
 	const [allChecked, setAllChecked] = useState(false)
 	const [nodes, setNodes] = useState<CustomNode[]>([])
 
-	// Get filters from query or use default values
-	const initialOrderBy = searchParams.get('orderBy') || 'name'
-	const initialOrderDirection =
-		(searchParams.get('orderDirection') as 'asc' | 'desc') || 'asc'
-	const initialPage = searchParams.get('page') || 1
-
-	const {
-		debouncedSearchTerm,
-		orderBy,
-		setOrderBy,
-		orderDirection,
-		setOrderDirection,
-		currentPage: page,
-		setCurrentPage: setPage,
-	} = useFilter({
-		initialOrderBy,
-		initialOrderDirection,
-		initialPage: parseInt(initialPage as string) || 1,
-	})
-
-	useEffect(() => {
-		const query = new URLSearchParams({
-			orderBy: orderBy || '',
-			orderDirection: orderDirection || 'asc',
-			page: page?.toString() || '1',
-		}).toString()
-
-		// Update URL without reloading the page
-		router.push(`?${query}`)
-	}, [debouncedSearchTerm, orderBy, orderDirection, router, page])
-
 	const { data, isLoading, isSuccess, refetch } = useQuery({
 		queryKey: ['user projects'],
 		queryFn: () => {
-			return projectService.getByUserProjects({
-				orderBy: orderBy,
-				orderDirection: orderDirection,
-				page: page,
-			})
+			return projectService.getByUserProjects(queryParams)
 		},
 	})
 
 	useEffect(() => {
-		if (data) {
-			// Map data to include the `checked` property
-			const updatedNodes = data.data.map((project: IProject) => ({
+		if (isFilterUpdated) {
+			refetch()
+		}
+	}, [queryParams])
+	const projects = data?.data
+	const meta = data?.meta
+	useEffect(() => {
+		if (projects) {
+			const updatedNodes = projects.map((project: IProject) => ({
 				id: project.id,
 				slug: project.slug,
 				icon: project.icon,
@@ -120,29 +89,19 @@ export default function UserProject() {
 		}
 	}, [data])
 
-	const projects = data?.data
-	const meta = data?.meta
-
-	// Handle master checkbox change
 	const handleMasterCheckboxChange = (checked: boolean) => {
 		setAllChecked(checked)
 		setNodes(prevNodes => prevNodes.map(node => ({ ...node, checked })))
 	}
-
-	// Handle individual checkbox change
 	const handleCheckboxChange = (id: number, checked: boolean) => {
 		setNodes(prevNodes =>
 			prevNodes.map(node => (node.id === id ? { ...node, checked } : node))
 		)
 	}
-
-	// Watch nodes to update master checkbox when all are checked
 	useEffect(() => {
 		const allSelected = nodes.length > 0 && nodes.every(node => node.checked)
 		setAllChecked(allSelected)
 	}, [nodes])
-
-	// Table columns
 	const COLUMNS: Column<CustomNode>[] = [
 		{
 			label: (
@@ -214,13 +173,6 @@ export default function UserProject() {
 		},
 	]
 
-	useEffect(() => {
-		refetch()
-		if (setPage) {
-			setPage(meta?.currentPage || 1)
-		}
-	}, [debouncedSearchTerm, orderBy, orderDirection, page])
-
 	return (
 		<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>
 			<div className='flex justify-between items-start'>
@@ -250,40 +202,39 @@ export default function UserProject() {
 					<SelectField
 						options={options}
 						defaultValue={
-							initialOrderBy
-								? options.find(o => o.value === initialOrderBy)
+							queryParams?.orderBy
+								? options.find(o => o.value === queryParams.orderBy)
 								: options[0]
 						}
 						placeholder='Sort type'
-						size='small'
+						size='medium'
 						onChange={selected => {
-							if (setOrderBy) {
-								setOrderBy(selected.value)
-							}
+							updateQueryParams('orderBy', selected.value)
 						}}
 					/>
 					<Button
 						size='icon'
 						type_style='dark'
-						Icon={orderDirection === 'asc' ? ArrowDownUp : ArrowUpDown}
+						Icon={
+							queryParams.orderDirection === 'asc' ? ArrowDownUp : ArrowUpDown
+						}
 						onlyIcon
 						className='py-2 '
 						onClick={() => {
-							if (setOrderDirection) {
-								setOrderDirection(orderDirection === 'asc' ? 'desc' : 'asc')
-							}
+							updateQueryParams(
+								'orderDirection',
+								queryParams.orderDirection === 'asc' ? 'desc' : 'asc'
+							)
 						}}
 					/>
 				</div>
 			</div>
-			<div className='flex flex-col gap-2 items-end'>
+			<div className='flex flex-col gap-2'>
 				<PaginatorWraper
-					currentPage={page || 1}
+					currentPage={queryParams.page || 1}
 					totalPages={meta?.lastPage || 1}
 					onPageChange={page => {
-						if (setPage) {
-							setPage(page)
-						}
+						updateQueryParams('page', page.toString())
 					}}
 					top
 				>

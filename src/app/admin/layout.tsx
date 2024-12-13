@@ -1,17 +1,31 @@
 import AdminLayout from '@/components/admin-layout/AdminLayout'
-import DashboardLoader from '@/components/ui/loader/DashboardLoader'
-import { Suspense } from 'react'
+import { hasPermission } from '@/services/role.service'
+import { getServerAuth } from '@/utils/server/get-server-auth'
+import { notFound } from 'next/navigation'
 
-export default function MainAdminLayout({
+export const getUser = async () => {
+	const user = await getServerAuth()
+	return user
+}
+
+export default async function MainAdminLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const user = await getUser()
+	const requiredPermissions = 'admin:dashboard.see'
+	const hasPermissions = hasPermission(
+		user?.role.permissions || [],
+		requiredPermissions
+	)
+	if (!hasPermissions) {
+		return notFound()
+	}
 	return (
 		<>
-			<Suspense fallback={<DashboardLoader />}>
-				<AdminLayout>{children}</AdminLayout>
-			</Suspense>
+			{hasPermissions}
+			<AdminLayout>{children}</AdminLayout>
 		</>
 	)
 }

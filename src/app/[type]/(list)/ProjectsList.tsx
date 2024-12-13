@@ -6,12 +6,11 @@ import { InputField } from '@/components/ui/form/fields/TextField'
 import { CustomOption } from '@/components/ui/form/select/select-field,types'
 import { SelectField } from '@/components/ui/form/select/SelectField'
 import PaginatorWraper from '@/components/ui/paginator/PaginatorWraper'
-import { useFilter } from '@/hooks/filters/useUserFilter'
+import { useAllProjectFilters } from '@/hooks/filters/all-projects/useAllProjectsFilter'
 import { projectService } from '@/services/project.service'
 import { getProjectTypeFromStr } from '@/types/project.types'
 import { useQuery } from '@tanstack/react-query'
 import { Search, Table2 } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
 const sortOption: CustomOption[] = [
@@ -24,61 +23,24 @@ const sortOption: CustomOption[] = [
 
 export default function ProjectsList({ params }: { params: { type: string } }) {
 	const type = params.type
-	const router = useRouter()
-	const searchParams = useSearchParams()
-	// Получаем значения из URL или используем значения по умолчанию
-	const initialSearch = searchParams.get('search') || ''
-	const initialOrderBy = searchParams.get('orderBy') || 'relevance'
-	const initialPage = parseInt(searchParams.get('page') || '1')
-
-	// Использование фильтров с начальными значениями
-	const {
-		debouncedSearchTerm,
-		setSearch,
-		orderBy,
-		setOrderBy,
-		currentPage: page,
-		setCurrentPage: setPage,
-	} = useFilter({
-		initialSearch,
-		initialOrderBy,
-		initialPage,
-	})
-
-	// Обновляем URL при изменении фильтров
-	useEffect(() => {
-		if (page === 1 && orderBy === 'relevance' && debouncedSearchTerm === '') {
-			router.push(``)
-			return
-		}
-		const query = new URLSearchParams()
-		if (debouncedSearchTerm) query.set('search', debouncedSearchTerm)
-		if (orderBy) query.set('orderBy', orderBy)
-		if (page) query.set('page', page.toString())
-
-		router.push(`?${query}`, { scroll: false }) // Отключение скролла при смене страницы
-	}, [debouncedSearchTerm, orderBy, page, router])
+	const { queryParams, isFilterUpdated, updateQueryParams } =
+		useAllProjectFilters()
 
 	// Получаем данные о проектах
 	const { data, refetch, isLoading } = useQuery({
-		queryKey: ['projects', type, debouncedSearchTerm, orderBy, page],
+		queryKey: ['projects', type],
 		queryFn: () =>
-			projectService.getAllType(getProjectTypeFromStr(type), {
-				search: debouncedSearchTerm,
-				orderBy,
-				page,
-				perPage: 10,
-			}),
+			projectService.getAllType(getProjectTypeFromStr(type), queryParams),
 	})
 
 	const meta = data?.meta || { currentPage: 1, lastPage: 1 }
 	const projects = data?.data || []
 
-	// Перезапрашиваем данные при изменении фильтров
 	useEffect(() => {
-		refetch()
-		if (setPage) setPage(meta.currentPage)
-	}, [debouncedSearchTerm, orderBy, page, refetch, meta.currentPage, setPage])
+		if (isFilterUpdated) {
+			refetch()
+		}
+	}, [queryParams])
 
 	return (
 		<div className='flex flex-col gap-4'>
@@ -91,10 +53,10 @@ export default function ProjectsList({ params }: { params: { type: string } }) {
 							placeholder='Search'
 							id='search'
 							Icon={Search}
-							onChange={e => {
-								if (setSearch) setSearch(e)
+							onChange={search => {
+								updateQueryParams('search', search)
 							}}
-							defaultValue={initialSearch}
+							defaultValue={queryParams.search}
 						/>
 						<SelectField
 							size='medium'
@@ -105,11 +67,11 @@ export default function ProjectsList({ params }: { params: { type: string } }) {
 							label='Sort by'
 							labelPosition='left'
 							defaultValue={
-								sortOption.find(o => o.value === initialOrderBy) ||
+								sortOption.find(o => o.value === queryParams.orderBy) ||
 								sortOption[0]
 							}
 							onChange={option => {
-								if (setOrderBy) setOrderBy(option.value)
+								updateQueryParams('orderBy', option.value)
 							}}
 						/>
 					</div>
@@ -120,11 +82,10 @@ export default function ProjectsList({ params }: { params: { type: string } }) {
 			</div>
 			<div className='flex flex-col justify-center'>
 				<PaginatorWraper
-					currentPage={page || 1}
+					currentPage={queryParams.page || 1}
 					totalPages={meta.lastPage}
 					onPageChange={page => {
-						if (setPage) setPage(page)
-						refetch()
+						updateQueryParams('page', page.toString())
 					}}
 					top
 					bottom

@@ -1,6 +1,10 @@
-import { LayoutDashboard, User } from 'lucide-react'
+import { LayoutDashboard, Settings, User } from 'lucide-react'
 
-import { DASHBOARD_PAGES, MAIN_PAGES } from '@/config/pages-url.config'
+import {
+	DASHBOARD_PAGES,
+	MAIN_PAGES,
+	SETTINGS_PAGES,
+} from '@/config/pages-url.config'
 import { IUserMenuItem } from './menu.interface'
 
 export const USER_MENU: IUserMenuItem[] = [
@@ -14,6 +18,12 @@ export const USER_MENU: IUserMenuItem[] = [
 		icon: LayoutDashboard,
 		link: DASHBOARD_PAGES.OVERVIEW,
 		name: 'Dashboard',
+		type: 'normal',
+	},
+	{
+		icon: Settings,
+		link: SETTINGS_PAGES.APPERANCE,
+		name: 'Settings',
 		type: 'normal',
 	},
 ]

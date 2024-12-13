@@ -32,6 +32,17 @@ class MAIN {
 		}
 	}
 }
+class SETTINGS {
+	private root = '/settings'
+
+	APPERANCE = this.root
+	ACCOUNT = `${this.root}/profile`
+	SECURITY = `${this.root}/security`
+	AUTHORIZED_APPS = `${this.root}/authorized-apps`
+	SESSIONS = `${this.root}/sessions`
+	PERSONAL_ACCESS_TOKENS = `${this.root}/personal-access-tokens`
+	APPLICATIONS = `${this.root}/applications`
+}
 class PROJECT_SETTINGS {
 	private root = '/settings'
 
@@ -73,6 +84,7 @@ class DASHBOARD {
 }
 
 export const MAIN_PAGES = new MAIN()
+export const SETTINGS_PAGES = new SETTINGS()
 export const ADMIN_PAGES = new ADMIN()
 export const DASHBOARD_PAGES = new DASHBOARD()
 export const PROJECT_SETTINGS_PAGES = new PROJECT_SETTINGS()

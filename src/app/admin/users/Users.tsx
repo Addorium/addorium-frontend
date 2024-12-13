@@ -152,7 +152,7 @@ export function Users() {
 					Icon={Search}
 					id='search'
 					placeholder='Search users'
-					size='small'
+					size='medium'
 					defaultValue={initialSearch}
 					onChange={value => {
 						if (setSearch) {
@@ -163,7 +163,7 @@ export function Users() {
 				<div className='flex gap-2 items-center'>
 					<p className='text-gray-5 text-[16px]'>Sort by</p>
 					<SelectField
-						size='small'
+						size='medium'
 						options={options}
 						defaultValue={
 							options.find(o => o.value === initialOrderBy) || options[0]

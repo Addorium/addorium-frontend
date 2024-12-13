@@ -2,8 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { ArrowDownUp, ArrowUpDown, Pencil, Search } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import Button from '@/components/ui/form/buttons/Button'
 import LinkButton from '@/components/ui/form/buttons/LinkButton'
@@ -17,7 +16,7 @@ import PaginatorWraper from '@/components/ui/paginator/PaginatorWraper'
 import { Table } from '@/components/ui/table-component/Table'
 import { Column, Node } from '@/components/ui/table-component/Table.types'
 import { MAIN_PAGES, PROJECT_SETTINGS_PAGES } from '@/config/pages-url.config'
-import { useFilter } from '@/hooks/filters/useUserFilter'
+import { useProjectFilters } from '@/hooks/filters/projects/useProjectsFilter'
 import { projectService } from '@/services/project.service'
 import {
 	ProjectStatus,
@@ -107,71 +106,12 @@ const COLUMNS: Column<CustomNode>[] = [
 ]
 
 export function Projects() {
-	const router = useRouter()
-	const searchParams = useSearchParams()
-
-	// Получаем значения из URL или используем значения по умолчанию
-	const initialSearch = searchParams.get('search') || ''
-	const initialOrderBy = searchParams.get('orderBy') || 'name'
-	const initialOrderDirection =
-		(searchParams.get('orderDirection') as 'asc' | 'desc') || 'asc'
-	const initialPage = parseInt(searchParams.get('page') || '1')
-	const initialStatus = searchParams.get('projectStatus') || undefined // boolean
-
-	// Использование фильтров с начальными значениями
-	const {
-		debouncedSearchTerm,
-		setSearch,
-		orderBy,
-		setOrderBy,
-		orderDirection,
-		setOrderDirection,
-		currentPage: page,
-		setCurrentPage: setPage,
-	} = useFilter({
-		initialSearch,
-		initialOrderBy,
-		initialOrderDirection,
-		initialPage,
-	})
-	const [projectStatus, setProjectStatus] = useState<ProjectStatus | undefined>(
-		initialStatus as ProjectStatus
-	)
-
-	// Обновляем URL при изменении фильтров
-	useEffect(() => {
-		const query = new URLSearchParams({
-			search: debouncedSearchTerm || '',
-			orderBy: orderBy || '',
-			orderDirection: orderDirection || 'asc',
-			projectStatus: projectStatus || '',
-			page: page?.toString() || '1',
-		}).toString()
-
-		router.push(`?${query}`, { scroll: false }) // Отключение скролла при смене страницы
-	}, [
-		debouncedSearchTerm,
-		orderBy,
-		orderDirection,
-		page,
-		projectStatus,
-		router,
-	])
-
-	// Получаем данные о проектах
+	const { queryParams, isFilterUpdated, updateQueryParams } =
+		useProjectFilters()
 	const { data, refetch, isLoading } = useQuery({
-		queryKey: ['projects', debouncedSearchTerm, orderBy, orderDirection, page],
-		queryFn: () =>
-			projectService.getAll({
-				search: debouncedSearchTerm,
-				orderBy,
-				orderDirection,
-				projectStatus,
-				page,
-			}),
+		queryKey: ['projects', queryParams],
+		queryFn: () => projectService.getAll(queryParams),
 	})
-
-	// Мемоизируем данные проектов для предотвращения лишнего рендеринга
 	const nodes: CustomNode[] = useMemo(
 		() =>
 			data?.data?.map(project => ({
@@ -186,23 +126,13 @@ export function Projects() {
 			})) ?? [],
 		[data]
 	)
-
 	const meta = data?.meta || { currentPage: 1, lastPage: 1 }
 
-	// Перезапрашиваем данные при изменении фильтров
 	useEffect(() => {
-		refetch()
-		if (setPage) setPage(meta.currentPage)
-	}, [
-		debouncedSearchTerm,
-		orderBy,
-		orderDirection,
-		page,
-		refetch,
-		projectStatus,
-		meta.currentPage,
-		setPage,
-	])
+		if (isFilterUpdated) {
+			refetch()
+		}
+	}, [queryParams])
 
 	return (
 		<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>
@@ -214,55 +144,58 @@ export function Projects() {
 					Icon={Search}
 					id='search'
 					placeholder='Search projects'
-					size='small'
-					defaultValue={initialSearch}
+					size='medium'
+					defaultValue={queryParams.search}
 					onChange={value => {
-						if (setSearch) setSearch(value)
+						updateQueryParams('search', value)
 					}}
 				/>
 				<div className='flex gap-2 items-center'>
 					<p className='text-gray-5 text-[16px]'>Sort by</p>
 					<SelectField
-						className='w-32'
+						className='min-w-[156px]'
 						options={options}
-						size='small'
+						size='medium'
 						defaultValue={
-							options.find(o => o.value === initialOrderBy) || options[0]
+							options.find(o => o.value === queryParams.orderBy) || options[0]
 						}
 						placeholder='Sort type'
 						onChange={selected => {
-							if (setOrderBy) setOrderBy(selected.value)
+							updateQueryParams('orderBy', selected.value)
 						}}
 					/>
 					<Toggle
-						label='Moderation'
-						checked={projectStatus === 'MODERATION'}
+						label='Mod'
+						checked={queryParams.projectStatus === 'MODERATION'}
 						onChange={e => {
-							console.log(e)
-							setProjectStatus(e ? 'MODERATION' : undefined)
+							updateQueryParams('projectStatus', e ? 'MODERATION' : '')
 						}}
 					/>
 					<Button
 						size='icon'
 						type_style='dark'
-						Icon={orderDirection === 'asc' ? ArrowDownUp : ArrowUpDown}
+						Icon={
+							queryParams.orderDirection === 'asc' ? ArrowDownUp : ArrowUpDown
+						}
 						onlyIcon
 						className='py-2'
 						onClick={() => {
-							if (setOrderDirection)
-								setOrderDirection(orderDirection === 'asc' ? 'desc' : 'asc')
+							updateQueryParams(
+								'orderDirection',
+								queryParams.orderDirection === 'asc' ? 'desc' : 'asc'
+							)
 						}}
 					/>
 				</div>
 			</div>
 
 			{/* Таблица и пагинация */}
-			<div className='flex flex-col gap-2 items-end'>
+			<div className='flex flex-col gap-2'>
 				<PaginatorWraper
-					currentPage={page || 1}
+					currentPage={queryParams.page || 1}
 					totalPages={meta.lastPage}
 					onPageChange={newPage => {
-						if (setPage) setPage(newPage)
+						updateQueryParams('page', newPage.toString())
 					}}
 					top
 				>

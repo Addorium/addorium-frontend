@@ -1,39 +1,25 @@
 import { axiosClassic } from '@/api/interceptors'
-import { IAuthForm, IAuthResponse } from '@/types/auth.types'
+import { IAuthResponse } from '@/types/auth.types'
+import * as Sentry from '@sentry/nextjs'
 import { removeFromStorage, saveTokenStorage } from './auth-token.service'
 
 export const authService = {
-	async discordAuth(data: IAuthForm) {
-		try {
-			const response = await axiosClassic.post<IAuthResponse>(
-				'/auth/discord',
-				data
-			)
-
-			if (response.data.accessToken) {
-				saveTokenStorage(response.data.accessToken)
-			}
-
-			return response
-		} catch (error) {
-			console.error('Login error:', error)
-			throw new Error('Failed to log in')
-		}
-	},
-
 	async getNewTokens() {
+		Sentry.addBreadcrumb({
+			category: 'auth',
+			message: 'Attempting to refresh token',
+			level: 'info',
+		})
 		try {
 			const response =
 				await axiosClassic.post<IAuthResponse>('/auth/access-token')
-
 			if (response.data.accessToken) {
 				saveTokenStorage(response.data.accessToken)
 			}
-
 			return response
 		} catch (error) {
-			// Логируем или обрабатываем ошибку
 			console.error('Error getting new tokens:', error)
+			removeFromStorage()
 			throw new Error('Failed to refresh tokens')
 		}
 	},
@@ -45,12 +31,27 @@ export const authService = {
 			if (response.data) {
 				removeFromStorage()
 			}
-
 			return response
 		} catch (error) {
-			// Логируем или обрабатываем ошибку
 			console.error('Logout error:', error)
 			throw new Error('Failed to log out')
 		}
+	},
+	async getNewTokensByRefresh(refreshToken: string) {
+		Sentry.addBreadcrumb({
+			category: 'auth',
+			message: 'Attempting to refresh token in server side',
+			level: 'info',
+		})
+		const response = await axiosClassic.post<IAuthResponse>(
+			'/auth/access-token',
+			{},
+			{
+				headers: {
+					Cookie: `refreshToken=${refreshToken}`,
+				},
+			}
+		)
+		return response.data
 	},
 }

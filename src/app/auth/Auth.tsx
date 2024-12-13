@@ -3,12 +3,14 @@
 import Button from '@/components/ui/form/buttons/Button'
 import { InputField } from '@/components/ui/form/fields/TextField'
 import { OAUTH_URL } from '@/constants/auth.constants'
+import * as Sentry from '@sentry/nextjs'
 import { Key, LogIn, Mail } from 'lucide-react'
 import Link from 'next/link'
 
 export function Auth() {
 	const onSubmit = () => {
 		window.location.href = OAUTH_URL
+		Sentry.captureMessage('Auth Page, redirect to OAUTH_URL')
 	}
 
 	return (

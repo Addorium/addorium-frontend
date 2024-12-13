@@ -47,7 +47,23 @@ export interface IProjectsGetProps {
 	search?: string
 	ownerId?: number
 }
+export type TypeProjectsGetProps = {
+	page?: number
+	perPage?: number
+	orderBy?: string
+	orderDirection?: 'asc' | 'desc'
+	projectStatus?: ProjectStatus
+	projectType?: ProjectType
+	search?: string
+	ownerId?: number
+}
 export interface IProjectsGetAllProps {
+	page?: number
+	perPage?: number
+	orderBy?: string
+	search?: string
+}
+export type TypeProjectsGetAllProps = {
 	page?: number
 	perPage?: number
 	orderBy?: string

@@ -126,7 +126,7 @@ export function Roles() {
 					Icon={Search}
 					id='search'
 					placeholder='Search roles'
-					size='small'
+					size='medium'
 					onChange={value => {
 						if (setSearch) setSearch(value) // Проверяем, есть ли setSearch
 					}}

@@ -26,7 +26,7 @@ export default function PaginatorWraper({
 			<div className='flex flex-col gap-4'>
 				{top && (
 					<Paginator
-						currentPage={currentPage}
+						currentPage={+currentPage}
 						totalPages={totalPages}
 						onPageChange={onPageChange}
 					/>
@@ -34,7 +34,7 @@ export default function PaginatorWraper({
 				{children}
 				{bottom && (
 					<Paginator
-						currentPage={currentPage}
+						currentPage={+currentPage}
 						totalPages={totalPages}
 						onPageChange={onPageChange}
 					/>

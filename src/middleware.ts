@@ -7,6 +7,9 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 	const { url, cookies } = request
 
 	const refreshToken = cookies.get(EnumTokens.REFRESH_TOKEN)?.value
+	const accessToken = cookies.get(EnumTokens.ACCESS_TOKEN)?.value
+
+	const isDashboardPage = url.includes('/dashboard')
 
 	const isAuthPage = url.includes('/auth')
 
@@ -16,6 +19,9 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
 	if (isAuthPage) {
 		return NextResponse.next()
+	}
+	if (isDashboardPage && !refreshToken && !accessToken) {
+		return NextResponse.redirect(new URL('/auth', request.url))
 	}
 
 	if (!refreshToken) {

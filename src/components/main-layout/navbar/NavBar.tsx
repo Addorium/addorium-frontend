@@ -9,13 +9,13 @@ import {
 	useModal,
 } from '@/components/ui/modal-provider/ModalContext'
 import UserMenu from '@/components/ui/user-menu/user-menu'
+import * as Sentry from '@sentry/nextjs'
 import clsx from 'clsx'
 import { LogIn, Plus } from 'lucide-react'
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useIsClient, useOnClickOutside } from 'usehooks-ts'
 
-import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
 import { CreateProjectModal } from '../ui/create-project-modal/CreateProjectModal'
 import { NAVBAR_ITEMS } from './NavBar.data'
@@ -25,8 +25,7 @@ import { NavBarItem } from './NavBarItem'
 interface Props {}
 
 export function NavBar({}: Props) {
-	const { data, isLoading } = useProfile()
-	const { isAuth } = useAuth()
+	const { data, isLoading, isLoggedIn } = useProfile()
 	const isClient = useIsClient()
 	const dropdown = useRef(null)
 	const { showModal } = useModal()
@@ -40,6 +39,16 @@ export function NavBar({}: Props) {
 	const cloaseMenu = () => {
 		setIsShow(false)
 	}
+	useEffect(() => {
+		if (!isLoading && data) {
+			Sentry.setUser({
+				id: data.id,
+				email: data.email,
+				username: data.name,
+				role: data.role,
+			})
+		}
+	}, [data, isLoading])
 
 	return (
 		<nav className={styles.navbar}>
@@ -54,14 +63,14 @@ export function NavBar({}: Props) {
 			</div>
 			<div className='flex justify-end gap-2 min-w-[190px]'>
 				<LoaderLayout loading={!isClient}>
-					<PermissionGuard permanent={!isAuth}>
+					<PermissionGuard permanent={!isLoggedIn}>
 						<div className='flex items-center justify-end'>
 							<LinkButton href='/auth' size='normal' Icon={LogIn}>
 								Sign In
 							</LinkButton>
 						</div>
 					</PermissionGuard>
-					<PermissionGuard permanent={isAuth}>
+					<PermissionGuard permanent={isLoggedIn}>
 						<div className='flex items-center justify-end gap-1'>
 							<Button
 								size='medium'
@@ -77,9 +86,7 @@ export function NavBar({}: Props) {
 							<UserIcon
 								isLoading={isLoading}
 								avatar={data?.avatar}
-								onClick={() => {
-									setIsShow(prev => !prev)
-								}}
+								onClick={() => setIsShow(prev => !prev)}
 							/>
 							<UserMenu
 								ref={dropdown}

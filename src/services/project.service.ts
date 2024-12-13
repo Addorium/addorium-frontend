@@ -3,10 +3,11 @@ import { PaginatedResponse } from '@/types/paginated.types'
 import {
 	IProject,
 	IProjectsCreateProps,
-	IProjectsGetAllProps,
 	IProjectsGetProps,
 	IProjectsUpdateProps,
 	ProjectType,
+	TypeProjectsGetAllProps,
+	TypeProjectsGetProps,
 } from '@/types/project.types'
 import { IUser } from '@/types/user.types'
 import { hasPermission } from './role.service'
@@ -25,7 +26,10 @@ class ProjectService {
 		)
 		return response.data
 	}
-	async getAllType(projectType: ProjectType, query: IProjectsGetAllProps) {
+	async getAllType(
+		projectType: ProjectType,
+		query = {} as TypeProjectsGetAllProps
+	) {
 		const response = await axiosClassic.get<PaginatedResponse<IProject>>(
 			this.BASE_URL + '/all',
 			{
@@ -49,13 +53,11 @@ class ProjectService {
 		)
 		return response.data
 	}
-	async getByUserProjects(query: IProjectsGetProps) {
+	async getByUserProjects(query = {} as TypeProjectsGetProps) {
 		const response = await axiosWithAuth.get<PaginatedResponse<IProject>>(
 			`${this.BASE_URL}/user/my`,
 			{
-				params: {
-					...query,
-				},
+				params: query,
 			}
 		)
 		return response.data

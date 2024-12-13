@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 interface Props {
 	label: string
@@ -6,5 +7,12 @@ interface Props {
 }
 
 export function NavBarItem({ label, href }: Props) {
-	return <Link href={href}> {label} </Link>
+	const path = usePathname()
+	const isActive = path === href
+	const className = isActive ? '!text-core-1 underline' : ''
+	return (
+		<Link href={href} className={className}>
+			{label}
+		</Link>
+	)
 }

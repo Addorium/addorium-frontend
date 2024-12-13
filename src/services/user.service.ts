@@ -1,4 +1,4 @@
-import { axiosWithAuth } from '@/api/interceptors'
+import { axiosClassic, axiosWithAuth } from '@/api/interceptors'
 import { PaginatedResponse } from '@/types/paginated.types'
 import { IUser, IUsersGetProps, IUsersUpdateProps } from '@/types/user.types'
 
@@ -10,6 +10,17 @@ class UserService {
 	async getProfile() {
 		const response = await axiosWithAuth.get<IProfileResponse>(
 			this.BASE_URL + '/me'
+		)
+		return response.data
+	}
+	async getServerProfile(accessToken: string) {
+		const response = await axiosClassic.get<IProfileResponse>(
+			this.BASE_URL + '/me',
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			}
 		)
 		return response.data
 	}
