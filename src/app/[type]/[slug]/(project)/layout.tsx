@@ -5,7 +5,7 @@ export default function ProjectLayout({
 	params,
 }: {
 	children: ReactNode
-	params: { type: string; slug: string }
+	params: Promise<{ type: string; slug: string }>
 }) {
 	return <>{children}</>
 }

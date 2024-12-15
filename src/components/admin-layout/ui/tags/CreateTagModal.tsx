@@ -15,14 +15,13 @@ import { Upload } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-interface CreateTagModalProps {}
 const typeSliderOptions: TypeSliderOptions[] = [
 	{ label: 'Blueprint', value: 'BLUEPRINT' },
 	{ label: 'Script', value: 'SCRIPT', disabled: false },
 	{ label: 'Theme', value: 'THEME', disabled: false },
 ]
 
-export function CreateTagModal({}: CreateTagModalProps) {
+export function CreateTagModal() {
 	const { hideModal } = useModal()
 	const queryClient = useQueryClient()
 	const {

@@ -1,6 +1,5 @@
 // components/Modal.tsx
 import { FC, ReactNode, useRef } from 'react'
-import { useOnClickOutside } from 'usehooks-ts'
 import Button from '../form/buttons/Button'
 import { useModal } from './ModalContext'
 
@@ -27,9 +26,9 @@ const Modal: FC<ModalProps> = ({
 }) => {
 	const { hideModal } = useModal()
 	const modalRef = useRef<HTMLDivElement>(null)
-	const clickOutside = useOnClickOutside(modalRef, () => {
-		hideModal()
-	})
+	// const clickOutside = useOnClickOutside(modalRef, () => {
+	// 	hideModal()
+	// })
 
 	return (
 		<div className='fixed inset-0 flex items-center justify-center bg-background-6 bg-opacity-50'>

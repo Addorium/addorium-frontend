@@ -1,6 +1,5 @@
 // components/Popup.tsx
 import { FC, useRef } from 'react'
-import { useOnClickOutside } from 'usehooks-ts'
 import Button from '../form/buttons/Button'
 import { usePopup } from './PopupContext'
 
@@ -27,9 +26,9 @@ const Popup: FC<PopupProps> = ({
 }) => {
 	const { hidePopup } = usePopup()
 	const popupRef = useRef<HTMLDivElement>(null)
-	useOnClickOutside(popupRef, () => {
-		hidePopup()
-	})
+	// useOnClickOutside(popupRef, () => {
+	// 	hidePopup()
+	// })
 	return (
 		<div className='fixed inset-0 flex items-center justify-center bg-background-6 bg-opacity-50'>
 			<div

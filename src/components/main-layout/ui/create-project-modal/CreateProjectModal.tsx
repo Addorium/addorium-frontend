@@ -20,7 +20,6 @@ import { Controller, useForm } from 'react-hook-form'
 import { slug as urlSlug } from 'slug-gen'
 import { toast } from 'sonner'
 
-interface CreateProjectModalProps {}
 const typeSliderOptions: TypeSliderOptions[] = [
 	{ label: 'Blueprint', value: 'BLUEPRINT' },
 	{ label: 'Script', value: 'SCRIPT', disabled: false },
@@ -33,7 +32,7 @@ const visibilityOptions: CustomOption[] = [
 	{ value: 'UNLISTED', label: 'Unlisted' },
 ]
 
-export function CreateProjectModal({}: CreateProjectModalProps) {
+export function CreateProjectModal() {
 	const { hideModal } = useModal()
 	const refetchAll = useRevalidateAllQueries()
 	const [currentUrl, setCurrentUrl] = useState<string>('')
@@ -166,7 +165,7 @@ export function CreateProjectModal({}: CreateProjectModalProps) {
 							label='Visibility'
 							important
 							onChange={() => {
-								field.onChange
+								field.onChange()
 							}}
 						/>
 					)}

@@ -18,7 +18,7 @@ export interface ImageFileFieldProps {
 	size?: 'small' | 'normal' | 'large'
 }
 
-export const ImageFileField = forwardRef<HTMLInputElement, ImageFileFieldProps>(
+const ImageFileField = forwardRef<HTMLInputElement, ImageFileFieldProps>(
 	(
 		{
 			id,
@@ -154,5 +154,7 @@ export const ImageFileField = forwardRef<HTMLInputElement, ImageFileFieldProps>(
 		)
 	}
 )
+
+ImageFileField.displayName = 'ImageFileField'
 
 export default ImageFileField

@@ -16,7 +16,7 @@ export interface FileFieldProps {
 	size?: 'small' | 'normal' | 'large'
 }
 
-export const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
+const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
 	(
 		{
 			id,
@@ -128,4 +128,7 @@ export const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
 		)
 	}
 )
+
+FileField.displayName = 'FileField'
+
 export default FileField

@@ -70,4 +70,7 @@ const UserMenu = forwardRef<Ref, IUserMenu>((props, ref) => {
 		</>
 	)
 })
+
+UserMenu.displayName = 'UserMenu'
+
 export default UserMenu

@@ -2,7 +2,9 @@ import { axiosClassic, axiosWithAuth } from '@/api/interceptors'
 import { PaginatedResponse } from '@/types/paginated.types'
 import { IUser, IUsersGetProps, IUsersUpdateProps } from '@/types/user.types'
 
-export interface IProfileResponse extends IUser {}
+export interface IProfileResponse extends IUser {
+	avatar: string
+}
 
 class UserService {
 	private BASE_URL = '/users'

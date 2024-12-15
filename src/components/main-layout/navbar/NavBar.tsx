@@ -14,7 +14,7 @@ import clsx from 'clsx'
 import { LogIn, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { useIsClient, useOnClickOutside } from 'usehooks-ts'
+import { useIsClient } from 'usehooks-ts'
 
 import { useProfile } from '@/hooks/useProfile'
 import { CreateProjectModal } from '../ui/create-project-modal/CreateProjectModal'
@@ -22,16 +22,14 @@ import { NAVBAR_ITEMS } from './NavBar.data'
 import styles from './NavBar.module.scss'
 import { NavBarItem } from './NavBarItem'
 
-interface Props {}
-
-export function NavBar({}: Props) {
+export function NavBar() {
 	const { data, isLoading, isLoggedIn } = useProfile()
 	const isClient = useIsClient()
-	const dropdown = useRef(null)
+	const dropdown = useRef<HTMLDivElement | null>(null)
 	const { showModal } = useModal()
 	const [isShow, setIsShow] = useState<boolean>(false)
-	useOnClickOutside(dropdown, () => setIsShow(false))
 
+	// useOnClickOutside([dropdown], () => setIsShow(false))
 	const modalOptions: ModalOptions = {
 		title: 'Create project',
 		body: <CreateProjectModal />,

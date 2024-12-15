@@ -14,10 +14,6 @@ interface IUpdateTagIcon {
 	project: IProject | undefined
 }
 const UpdateTagIcon: React.FC<IUpdateTagIcon> = ({ project }) => {
-	if (!project) {
-		return null
-	}
-
 	const inputFile = useRef<HTMLInputElement | null>(null)
 	const revalidate = useRevalidateAllQueries()
 
@@ -35,6 +31,10 @@ const UpdateTagIcon: React.FC<IUpdateTagIcon> = ({ project }) => {
 			})
 		},
 	})
+
+	if (!project) {
+		return null
+	}
 
 	const handleFileChange = (file: File) => {
 		const formData = new FormData()

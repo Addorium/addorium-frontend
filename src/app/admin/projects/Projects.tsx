@@ -132,7 +132,7 @@ export function Projects() {
 		if (isFilterUpdated) {
 			refetch()
 		}
-	}, [queryParams])
+	}, [queryParams, isFilterUpdated, refetch])
 
 	return (
 		<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>

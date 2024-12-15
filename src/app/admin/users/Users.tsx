@@ -140,7 +140,7 @@ export function Users() {
 		if (setPage) {
 			setPage(meta.currentPage)
 		}
-	}, [debouncedSearchTerm, orderBy, orderDirection, page])
+	}, [debouncedSearchTerm, orderBy, orderDirection, page, meta.currentPage])
 
 	return (
 		<div className='flex flex-col px-4 py-5 w-full bg-background-2 rounded-2xl gap-4'>

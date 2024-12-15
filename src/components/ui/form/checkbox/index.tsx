@@ -31,7 +31,7 @@ const Checkbox: React.FC<CustomCheckboxProps> = ({
 					checked={checkedState}
 					onChange={e => {
 						setChecked(e.target.checked)
-						onChange && onChange(e)
+						onChange?.(e)
 					}}
 					disabled={disabled}
 					type='checkbox'

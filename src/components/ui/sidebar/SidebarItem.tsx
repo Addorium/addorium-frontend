@@ -17,7 +17,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 	className,
 }) => {
 	const { Icon, name, link, disabled } = item
-	let iconSize = 'w-[24px] h-[24px]'
+	const iconSize = 'w-[24px] h-[24px]'
 	const baseStyles = `rounded-[16px] w-full px-4 py-2 transition-bg duration-300 ease-in-out font-semibold flex items-center justify-start  text-sm ${active ? 'bg-gray-1/15 text-gray-1' : `${disabled ? 'cursor-default text-gray-1/40' : 'cursor-pointer hover:text-gray-1 text-gray-6'}`} `
 
 	return (

@@ -21,7 +21,7 @@ interface InputFieldProps {
 	type?: 'password' | 'text' | 'number' | 'search'
 }
 
-export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
+const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 	(
 		{
 			id,
@@ -164,3 +164,6 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 		)
 	}
 )
+
+InputField.displayName = 'InputField'
+export { InputField }

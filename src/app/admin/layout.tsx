@@ -3,7 +3,7 @@ import { hasPermission } from '@/services/role.service'
 import { getServerAuth } from '@/utils/server/get-server-auth'
 import { notFound } from 'next/navigation'
 
-export const getUser = async () => {
+const getUser = async () => {
 	const user = await getServerAuth()
 	return user
 }

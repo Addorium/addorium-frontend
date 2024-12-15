@@ -18,10 +18,6 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({
 	project,
 	disabled,
 }) => {
-	if (!project) {
-		return null
-	}
-
 	const inputFile = useRef<HTMLInputElement | null>(null)
 	const revalidate = useRevalidateAllQueries()
 
@@ -53,6 +49,9 @@ const UpdateProjectIcon: React.FC<IUpdateProjectIcon> = ({
 			})
 		},
 	})
+	if (!project) {
+		return null
+	}
 
 	const handleFileChange = (file: File) => {
 		console.log(file)

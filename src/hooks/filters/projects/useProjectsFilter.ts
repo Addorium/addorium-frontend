@@ -18,7 +18,7 @@ export function useProjectFilters() {
 				value,
 			})
 		})
-	}, [])
+	}, [isFilterUpdated])
 
 	const updateQueryParams = (
 		key: keyof TypeProjectsGetProps,

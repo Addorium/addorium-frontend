@@ -14,10 +14,6 @@ interface IUpdateUserIcon {
 	user: IUser | undefined
 }
 const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
-	if (!user) {
-		return null
-	}
-
 	const inputFile = useRef<HTMLInputElement | null>(null)
 	const revalidate = useRevalidateAllQueries()
 
@@ -49,6 +45,10 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 			})
 		},
 	})
+
+	if (!user) {
+		return null
+	}
 
 	const handleFileChange = (file: File) => {
 		const formData = new FormData()

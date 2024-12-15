@@ -14,11 +14,7 @@ interface IUpdateCategoryIcon {
 	project: IProject | undefined
 }
 const UpdateCategoryIcon: React.FC<IUpdateCategoryIcon> = ({ project }) => {
-	if (!project) {
-		return null
-	}
-
-	const inputFile = useRef<HTMLInputElement | null>(null)
+	const inputFile = useRef<HTMLInputElement>(null)
 	const revalidate = useRevalidateAllQueries()
 
 	const { mutate: updateImage, isPending } = useMutation({
@@ -35,6 +31,9 @@ const UpdateCategoryIcon: React.FC<IUpdateCategoryIcon> = ({ project }) => {
 			})
 		},
 	})
+	if (!project) {
+		return null
+	}
 
 	const handleFileChange = (file: File) => {
 		const formData = new FormData()

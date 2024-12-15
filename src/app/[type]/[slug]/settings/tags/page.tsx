@@ -1,9 +1,10 @@
 import Tags from './Tags'
 
-export default function TagsPage({
-	params,
-}: {
-	params: { type: string; slug: string }
-}) {
-	return <Tags params={params} />
+export default async function TagsPage(
+    props: {
+        params: Promise<{ type: string; slug: string }>
+    }
+) {
+    const params = await props.params;
+    return <Tags params={params} />
 }

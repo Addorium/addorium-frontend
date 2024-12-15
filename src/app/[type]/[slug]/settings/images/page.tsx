@@ -1,9 +1,10 @@
 import ImagesSettings from './ImagesSettings'
 
-export default function ImagesSettingsPage({
-	params,
-}: {
-	params: { type: string; slug: string }
-}) {
-	return <ImagesSettings params={params} />
+export default async function ImagesSettingsPage(
+    props: {
+        params: Promise<{ type: string; slug: string }>
+    }
+) {
+    const params = await props.params;
+    return <ImagesSettings params={params} />
 }

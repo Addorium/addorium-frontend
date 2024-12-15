@@ -13,11 +13,11 @@ import {
 export async function getServerAuth(): Promise<TUserDataState | null> {
 	const JWT_SECRET = process.env.JWT_SECRET
 	const refreshToken =
-		cookies().get(EnumTokens.REFRESH_TOKEN)?.value ?? undefined
+		(await cookies()).get(EnumTokens.REFRESH_TOKEN)?.value ?? undefined
 
 	if (!refreshToken) return null
 
-	let accessToken = cookies().get(EnumTokens.ACCESS_TOKEN)?.value ?? undefined
+	let accessToken = (await cookies()).get(EnumTokens.ACCESS_TOKEN)?.value ?? undefined
 
 	const verifyToken = async (token: string) => {
 		try {

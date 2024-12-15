@@ -133,6 +133,7 @@ export default function ImagesSettings({
 								image.id === project.bannerId ? project.id : undefined
 							return (
 								<GalleryImage
+									key={image.id}
 									width='291px'
 									galleryImage={image}
 									onClick={image => {

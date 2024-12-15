@@ -7,9 +7,9 @@ import { ImagePopupOptions, useImagePopup } from './ImagePopupContext'
 const ImagePopup: FC<ImagePopupOptions> = ({ galeryImage }) => {
 	const { hidePopup } = useImagePopup()
 	const popupRef = useRef<HTMLDivElement>(null)
-	useOnClickOutside(popupRef, () => {
-		hidePopup()
-	})
+	// useOnClickOutside(popupRef, () => {
+	// 	hidePopup()
+	// })
 	return (
 		<div className='fixed inset-0 flex items-center justify-center bg-background-6 bg-opacity-50'>
 			<div

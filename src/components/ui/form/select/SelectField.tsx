@@ -2,7 +2,6 @@
 import clsx from 'clsx'
 import { ChevronDown } from 'lucide-react'
 import { forwardRef, useRef, useState } from 'react'
-import { useOnClickOutside } from 'usehooks-ts'
 import { CustomOption, SelectFieldProps } from './select-field,types'
 
 const baseStyle =
@@ -14,7 +13,7 @@ const sizeStyles = {
 	large: 'h-[60px]',
 }
 
-export const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
+const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
 	(
 		{
 			options,
@@ -36,7 +35,7 @@ export const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
 			CustomOption | undefined
 		>(defaultValue)
 		const select = useRef(null)
-		useOnClickOutside(select, () => setIsOpen(false))
+		// useOnClickOutside(select, () => setIsOpen(false))
 
 		const toggleDropdown = () => setIsOpen(!isOpen)
 
@@ -111,3 +110,6 @@ export const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
 		)
 	}
 )
+
+SelectField.displayName = 'SelectField'
+export { SelectField }
