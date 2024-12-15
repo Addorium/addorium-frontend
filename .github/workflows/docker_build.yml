@@ -33,3 +33,13 @@ jobs:
             --platform linux/amd64,linux/arm64 \
             --tag dalynka/addorium-frontend:prod \
             --push .
+      # Шаг 5: Уведомленин о сборке и деплоя
+      - name: Gotify Notification
+        uses: eikendev/gotify-action@0.0.3
+        with:
+          gotify_api_base: gotify.dalynkaa.me
+          gotify_app_token: AuL-j3zmHaZsOGC
+          notification_title: Frontend Build and Deployment
+          notification_message: Билд успешен и задеплоен. Ожидание обновления.
+          notification_priority: 5
+          
