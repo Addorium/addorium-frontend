@@ -64,7 +64,7 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 				<div>
 					<SimpleUserIcon isLoading={false} avatar={user.avatar} width={100} />
 				</div>
-				<div className='flex flex-col gap-2 justify-center w-fit bg-red'>
+				<div className='flex flex-col gap-2 justify-center w-fit'>
 					<Button
 						disabled={isPending}
 						className='w-full'
