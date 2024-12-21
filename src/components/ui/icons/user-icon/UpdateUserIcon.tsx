@@ -64,10 +64,11 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 				<div>
 					<SimpleUserIcon isLoading={false} avatar={user.avatar} width={100} />
 				</div>
-				<div className='flex flex-col gap-2'>
+				<div className='flex flex-col gap-2 justify-center w-fit bg-red'>
 					<Button
 						disabled={isPending}
-						size='small'
+						className='w-full'
+						size='medium'
 						type_style='dark'
 						Icon={Upload}
 						onClick={() => {
@@ -78,7 +79,8 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 					</Button>
 					<Button
 						disabled={isPending}
-						size='small'
+						className='w-full'
+						size='medium'
 						type_style='red'
 						Icon={Trash2}
 						onClick={() => {
