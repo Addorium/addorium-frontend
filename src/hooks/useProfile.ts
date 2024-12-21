@@ -16,7 +16,6 @@ export function useProfile(): IUseProfile {
 	const { data, isLoading, isSuccess, isFetching } = useQuery({
 		queryKey: ['profile'],
 		queryFn: () => userService.getProfile(),
-		enabled: hasToken,
 	})
 
 	return {
