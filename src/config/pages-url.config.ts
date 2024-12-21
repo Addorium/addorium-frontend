@@ -8,6 +8,7 @@ class MAIN {
 	BLUEPRINTS = `${this.root}blueprints`
 	THEMES = `${this.root}themes`
 	PACKS = `${this.root}packs`
+	AUTH = `${this.root}auth`
 
 	BLUEPRINT_SLUG(slug: string): string {
 		return `${this.BLUEPRINTS}/${slug}`

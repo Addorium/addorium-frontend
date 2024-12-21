@@ -117,7 +117,7 @@ export function UserEdit({ userId }: { userId: string }) {
 										rules={{ required: 'Name is required' }}
 										render={({ field }) => (
 											<InputField
-												size='large'
+												size='medium'
 												label='User name'
 												id='user-name'
 												placeholder='Enter user name'
@@ -139,6 +139,7 @@ export function UserEdit({ userId }: { userId: string }) {
 											<SelectField
 												label='Role'
 												id='role'
+												size='medium'
 												options={roleOptions}
 												placeholder='Select role'
 												defaultValue={roleOptions.find(option => {
@@ -153,7 +154,7 @@ export function UserEdit({ userId }: { userId: string }) {
 								</div>
 								<div className='flex gap-4'>
 									<InputField
-										size='large'
+										size='medium'
 										label='Discord ID'
 										id='discord-id'
 										placeholder='Enter discord ID'
@@ -167,7 +168,7 @@ export function UserEdit({ userId }: { userId: string }) {
 										defaultValue={data?.email}
 										render={({ field }) => (
 											<InputField
-												size='large'
+												size='medium'
 												label='Email'
 												id='email'
 												placeholder='Enter email'
@@ -184,8 +185,8 @@ export function UserEdit({ userId }: { userId: string }) {
 							<div className='flex gap-4'>
 								<Button
 									type='button'
-									size='large'
-									className='w-32'
+									size='medium'
+									className='w-24'
 									type_style='primary'
 									onClick={() => {
 										showPopup(popupOptions)
@@ -194,8 +195,8 @@ export function UserEdit({ userId }: { userId: string }) {
 									Save
 								</Button>
 								<Button
-									size='large'
-									className='w-32'
+									size='medium'
+									className='w-24'
 									type_style='transperent'
 									onClick={() => {
 										router.push(ADMIN_PAGES.USERS)
