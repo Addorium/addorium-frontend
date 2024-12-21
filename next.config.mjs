@@ -15,6 +15,12 @@ const nextConfig = {
 				port: '',
 				pathname: '**',
 			},
+			{
+				protocol: 'http',
+				hostname: 'dalynkaa.me',
+				port: '9000',
+				pathname: '**',
+			},
 		],
 	},
 }
