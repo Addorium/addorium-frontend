@@ -17,10 +17,20 @@ export const authService = {
 				saveTokenStorage(response.data.accessToken)
 			}
 			return response
-		} catch (error) {
-			console.error('Error getting new tokens:', error)
-			removeFromStorage()
-			throw new Error('Failed to refresh tokens')
+		} catch (error: any) {
+			if (
+				error.response?.status === 401 &&
+				error.response?.data?.message === 'Refresh token not passed'
+			) {
+				removeFromStorage()
+				return
+			} else if (
+				error.response?.status == 401 &&
+				error.response?.data?.message === 'Invalid or revoked refresh token'
+			) {
+				removeFromStorage()
+				return
+			}
 		}
 	},
 
@@ -52,6 +62,9 @@ export const authService = {
 				},
 			}
 		)
+		response.headers['set-cookie']?.forEach(cookie => {
+			console.log('cookie', cookie)
+		})
 		return response.data
 	},
 }

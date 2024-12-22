@@ -14,17 +14,13 @@ export async function getTokensFromRequest(request: NextRequest) {
 	}
 
 	if (!accessToken) {
-		console.log('нет access token пробуем получить новый')
 		try {
 			const data = await authService.getNewTokensByRefresh(refreshToken)
 			accessToken = data.accessToken
-
-			console.log('получили новый access token - ', accessToken)
 		} catch (error) {
-			console.log('ошибка при получении нового access token')
 			if (error instanceof AxiosError) {
 				if (error.message === 'invalid token') {
-					console.log('не валидный токен')
+					console.error('не валидный токен')
 					request.cookies.delete(EnumTokens.ACCESS_TOKEN)
 					return null
 				}
