@@ -50,14 +50,14 @@ export function Auth() {
 					<h1 className='text-2xl my-4 font-semibold'>Or use a password</h1>
 					<div className='flex flex-col gap-4'>
 						<InputField
-							size='large'
+							size='normal'
 							id='login'
 							placeholder='Login'
 							className='w-full'
 							Icon={Mail}
 						/>
 						<InputField
-							size='large'
+							size='normal'
 							id='password'
 							placeholder='Password'
 							className='w-full'

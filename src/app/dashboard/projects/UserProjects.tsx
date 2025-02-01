@@ -4,7 +4,7 @@ import { CreateProjectModal } from '@/components/main-layout/ui/create-project-m
 import Button from '@/components/ui/form/buttons/Button'
 import LinkButton from '@/components/ui/form/buttons/LinkButton'
 import Checkbox from '@/components/ui/form/checkbox'
-import { CustomOption } from '@/components/ui/form/select/select-field,types'
+import { CustomOption } from '@/components/ui/form/select/select-field.types'
 import { SelectField } from '@/components/ui/form/select/SelectField'
 import { Heading } from '@/components/ui/Heading'
 import SimpleProjectIcon from '@/components/ui/icons/project-icon/SimpleProjectIcon'

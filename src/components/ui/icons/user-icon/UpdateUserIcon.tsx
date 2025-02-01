@@ -22,7 +22,9 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 		onSuccess: () => {
 			toast.success('Avatar updated')
 			inputFile.current!.value = ''
-			revalidate()
+			setTimeout(() => {
+				revalidate()
+			}, 1000)
 		},
 		onError: (error: any) => {
 			inputFile.current!.value = ''
@@ -36,7 +38,9 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 		onSuccess: () => {
 			toast.success('Avatar cleared', { description: 'Avatat is cleared' })
 			inputFile.current!.value = ''
-			revalidate()
+			setTimeout(() => {
+				revalidate()
+			}, 1000)
 		},
 		onError: (error: { message: string }) => {
 			inputFile.current!.value = ''
@@ -91,6 +95,8 @@ const UpdateUserIcon: React.FC<IUpdateUserIcon> = ({ user }) => {
 					</Button>
 					<input
 						type='file'
+						itemType='image/*'
+						accept='image/*'
 						className='hidden'
 						ref={inputFile}
 						onChange={e => {

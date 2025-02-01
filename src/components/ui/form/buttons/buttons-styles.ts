@@ -1,21 +1,21 @@
 import { LucideIcon } from 'lucide-react'
 
 export const sizeStyles = {
-	small: 'text-[14px] h-[32px] px-3 rounded-[12px]',
-	medium: 'text-[14px] h-[42px] px-3 py-3 rounded-[16px]',
-	normal: 'text-[16px] h-[50px] px-3 py-3 rounded-[16px]',
-	large: 'text-[18px] h-[60px] px-3 py-3 rounded-[16px]',
-	custom: 'text-[16px] h-[42px] px-3 py-3 rounded-[16px]',
-	icon: 'text-[16px] h-[40px] w-[40px] px-2 py-2 rounded-[12px]',
+	small: 'text-xs px-2 rounded-lg',
+	medium: 'text-sm px-4 py-2 rounded-xl',
+	normal: 'text-base px-6 py-3 rounded-xl',
+	large: 'text-lg px-8 py-4 rounded-xl',
+	custom: 'text-base px-3 py-3 rounded-xl',
+	icon: 'text-sm h-10 w-10 px-2 py-2 rounded-lg',
 }
 
 export const iconSize = {
-	small: 'w-[24px] h-24px]',
-	medium: 'w-[24px] h-[24px]',
-	normal: 'w-[24px] h-[24px]',
-	large: 'w-[24px] h-[24px]',
-	custom: 'w-[24px] h-[24px]',
-	icon: 'w-[24px] h-[24px]',
+	small: 'w-4 h-4',
+	medium: 'w-5 h-5',
+	normal: 'w-6 h-6',
+	large: 'w-7 h-7',
+	custom: 'w-6 h-6',
+	icon: 'w-6 h-6',
 }
 
 export const typeStyles = {

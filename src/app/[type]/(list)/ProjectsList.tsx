@@ -3,7 +3,7 @@
 import ProjectsViewList from '@/components/projects-layout/ui/projects-list-page/projects-view-list/ProjectsViewList'
 import Button from '@/components/ui/form/buttons/Button'
 import { InputField } from '@/components/ui/form/fields/TextField'
-import { CustomOption } from '@/components/ui/form/select/select-field,types'
+import { CustomOption } from '@/components/ui/form/select/select-field.types'
 import { SelectField } from '@/components/ui/form/select/SelectField'
 import PaginatorWraper from '@/components/ui/paginator/PaginatorWraper'
 import { useAllProjectFilters } from '@/hooks/filters/all-projects/useAllProjectsFilter'

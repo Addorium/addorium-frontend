@@ -12,10 +12,12 @@ export async function protectAdmin(request: NextRequest) {
 
 	const verifiedData = await jwtVerifyServer(tokens.accessToken)
 	if (!verifiedData) return redirectToLogin(request)
-	if (
-		verifyUserPermission(verifiedData.role.permissions, 'admin:dashboard.see')
+	const hasPermission = verifyUserPermission(
+		verifiedData.role.permissions,
+		'admin:dashboard.see'
 	)
-		return redirectToMain(request)
+	console.log('hasPermission', hasPermission)
+	if (!hasPermission) return redirectToMain(request)
 
 	return NextResponse.next()
 }

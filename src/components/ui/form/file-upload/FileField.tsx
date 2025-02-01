@@ -13,7 +13,7 @@ export interface FileFieldProps {
 	placeholder: string
 	disabled?: boolean
 	onChange?: (file: File) => void
-	size?: 'small' | 'normal' | 'large'
+	size?: 'small' | 'normal' | 'large' | 'medium'
 }
 
 const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
@@ -39,6 +39,7 @@ const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
 		const sizeStyle = {
 			small: 'h-[40px]',
 			normal: 'h-[45px]',
+			medium: 'h-[46px]',
 			large: 'h-[48px]',
 		}
 		const typedDivStyle = {

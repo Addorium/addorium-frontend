@@ -2,7 +2,7 @@
 import { errorCatch } from '@/api/error'
 import Button from '@/components/ui/form/buttons/Button'
 import { InputField } from '@/components/ui/form/fields/TextField'
-import { CustomOption } from '@/components/ui/form/select/select-field,types'
+import { CustomOption } from '@/components/ui/form/select/select-field.types'
 import { SelectField } from '@/components/ui/form/select/SelectField'
 import {
 	TypeSlider,
@@ -113,7 +113,7 @@ export function CreateProjectModal() {
 					control={control}
 					render={({ field }) => (
 						<InputField
-							size='large'
+							size='normal'
 							id='name'
 							label='Name'
 							important
@@ -128,7 +128,7 @@ export function CreateProjectModal() {
 					control={control}
 					render={({ field }) => (
 						<InputField
-							size='large'
+							size='normal'
 							id='summary'
 							label='Summary'
 							important
@@ -143,7 +143,7 @@ export function CreateProjectModal() {
 					control={control}
 					render={({ field }) => (
 						<InputField
-							size='large'
+							size='normal'
 							id='url'
 							important
 							label='Url'
@@ -158,6 +158,7 @@ export function CreateProjectModal() {
 					control={control}
 					render={({ field }) => (
 						<SelectField
+							size='normal'
 							options={visibilityOptions}
 							defaultValue={visibilityOptions.find(
 								option => option.value === field.value
@@ -173,7 +174,7 @@ export function CreateProjectModal() {
 			</div>
 			<div className='flex gap-2 justify-end'>
 				<Button
-					size='normal'
+					size='medium'
 					type_style='transperent_red'
 					onClick={() => {
 						hideModal()
@@ -183,7 +184,7 @@ export function CreateProjectModal() {
 					Cancel
 				</Button>
 				<Button
-					size='normal'
+					size='medium'
 					type_style='primary'
 					onClick={handleSubmit(onSubmit)}
 					Icon={Check}

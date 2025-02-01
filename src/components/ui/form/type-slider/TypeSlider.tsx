@@ -28,7 +28,7 @@ export function TypeSlider({
 	return (
 		<div className='flex flex-col gap-2 relative'>
 			{label && (
-				<label className='px-2 flex gap-1 text-[15px] text-gray-6'>
+				<label className='px-2 flex gap-1 font-bold text-[15px] text-gray-6'>
 					{label}
 					{important && <p className='text-red'>*</p>}
 				</label>

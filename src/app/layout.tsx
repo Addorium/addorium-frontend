@@ -48,8 +48,8 @@ export default function RootLayout({
 							classNames: {
 								toast:
 									'bg-background-2 px-4 py-2 flex gap-4 justify-start items-center rounded-2xl min-w-[300px]',
-								title: 'text-red',
-								description: 'text-gre',
+								title: '',
+								description: 'text-gray-1/90',
 								actionButton: 'bg-zinc',
 								cancelButton: 'bg-orange',
 								closeButton: 'bg-green',

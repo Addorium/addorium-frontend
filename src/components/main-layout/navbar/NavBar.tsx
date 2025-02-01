@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useIsClient } from 'usehooks-ts'
 
 import { useProfile } from '@/hooks/useProfile'
+import { useRevalidateAllQueries } from '@/hooks/useRevalidate'
 import { CreateProjectModal } from '../ui/create-project-modal/CreateProjectModal'
 import { NAVBAR_ITEMS } from './NavBar.data'
 import styles from './NavBar.module.scss'
@@ -24,10 +25,15 @@ import { NavBarItem } from './NavBarItem'
 
 export function NavBar() {
 	const { data, isLoading, isLoggedIn } = useProfile()
+	const revalidate = useRevalidateAllQueries()
 	const isClient = useIsClient()
 	const dropdown = useRef<HTMLDivElement | null>(null)
 	const { showModal } = useModal()
 	const [isShow, setIsShow] = useState<boolean>(false)
+
+	// useInterval(() => {
+	// 	revalidate()
+	// }, 1000 * 2)
 
 	// useOnClickOutside([dropdown], () => setIsShow(false))
 	const modalOptions: ModalOptions = {
@@ -51,7 +57,7 @@ export function NavBar() {
 	return (
 		<nav className={styles.navbar}>
 			<Link className={styles.logo} href='/'>
-				<img src='/axiom_logo.svg' alt='axiomlogo' />
+				<img src='/logo.svg' alt='logo' className='bg-while' />
 				<h1>Addorium</h1>
 			</Link>
 			<div className={clsx(styles.links)}>
@@ -63,7 +69,7 @@ export function NavBar() {
 				<LoaderLayout loading={!isClient}>
 					<PermissionGuard permanent={!isLoggedIn}>
 						<div className='flex items-center justify-end'>
-							<LinkButton href='/auth' size='normal' Icon={LogIn}>
+							<LinkButton href='/auth' Icon={LogIn}>
 								Sign In
 							</LinkButton>
 						</div>
@@ -72,14 +78,13 @@ export function NavBar() {
 						<div className='flex items-center justify-end gap-1'>
 							<Button
 								size='medium'
-								type_style='secondary'
-								className='h-[32px]'
+								type_style='primary'
 								Icon={Plus}
 								onClick={() => {
 									showModal(modalOptions)
 								}}
 							>
-								create
+								Create
 							</Button>
 							<UserIcon
 								isLoading={isLoading}

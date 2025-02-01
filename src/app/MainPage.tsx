@@ -7,7 +7,13 @@ export default function MainPage() {
 	return (
 		<div className='mt-16 flex flex-col items-center justify-center'>
 			<div>
-				<img src='/axiom_logo.svg' alt='axiom' width='262px' height='262px' />
+				<img
+					src='/logo.svg'
+					alt='axiom'
+					width='262px'
+					height='262px'
+					className='bg-while'
+				/>
 			</div>
 			<div className='flex flex-col'>
 				<h1 className='text-[86px]'>The place for Axiom</h1>

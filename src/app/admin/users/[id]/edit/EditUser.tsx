@@ -3,7 +3,7 @@
 import LoaderLayout from '@/components/loader-layout'
 import Button from '@/components/ui/form/buttons/Button'
 import { InputField } from '@/components/ui/form/fields/TextField'
-import { CustomOption } from '@/components/ui/form/select/select-field,types'
+import { CustomOption } from '@/components/ui/form/select/select-field.types'
 import { SelectField } from '@/components/ui/form/select/SelectField'
 import UpdateUserIcon from '@/components/ui/icons/user-icon/UpdateUserIcon'
 import {

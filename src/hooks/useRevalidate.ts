@@ -113,7 +113,6 @@ export function useProjectRevalidate(): IProjectRevalidate {
 }
 export const useRevalidateAllQueries = () => {
 	const queryClient = useQueryClient()
-
 	const revalidateAll = () => {
 		queryClient.invalidateQueries()
 	}

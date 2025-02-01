@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 	const url = new URL(request.url)
 	const pathname = url.pathname
 
-	if (pathname.includes(ADMIN_PAGES.HOME)) {
+	if (pathname.includes(DASHBOARD_PAGES.OVERVIEW)) {
 		return protectDashboard(request)
 	}
 
@@ -21,7 +21,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 		return protectLoginPages(request)
 	}
 
-	if (pathname.includes(DASHBOARD_PAGES.OVERVIEW)) {
+	if (pathname.includes(ADMIN_PAGES.HOME)) {
 		return protectAdmin(request)
 	}
 }
