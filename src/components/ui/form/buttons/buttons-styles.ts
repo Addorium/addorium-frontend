@@ -36,7 +36,7 @@ export const typeStyles = {
 }
 
 export const baseStyles = (size: ButtonSize, type: ButtonType) =>
-	` gap-0.5 transition-all duration-300 ease-in-out ${sizeStyles[size]} ${typeStyles[type]} flex items-center justify-center text-nowrap`
+	` gap-0.5 transition-all duration-300 ease-in-out ${sizeStyles[size]} ${typeStyles[type]} flex items-center justify-center text-nowrap active:scale-95`
 
 export interface CustomButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {

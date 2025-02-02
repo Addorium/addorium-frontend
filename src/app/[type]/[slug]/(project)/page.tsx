@@ -1,7 +1,12 @@
-export default function GeneralPage({
+import { projectService } from '@/services/project.service'
+import ProjectEntry from './ProjectEntry'
+
+export default async function GeneralPage({
 	params,
 }: {
 	params: Promise<{ type: string; slug: string }>
 }) {
-	return <div>General Page</div>
+	const { type, slug } = await params
+	const project = await projectService.getBySlug(slug)
+	return <ProjectEntry initialProject={project} />
 }

@@ -21,8 +21,9 @@ const SimpleProjectIcon: React.FC<ISimpleProjectIcon> = ({
 	return (
 		<>
 			<div
-				className={`rounded-${rounded} flex max-w-fit aspect-square bg-background-4
-	 transition-transform duration-500 ease-in-out my-1`}
+				className={`rounded-${rounded} flex aspect-square bg-background-4
+	 transition-transform duration-500 ease-in-out`}
+				style={{ width: `${width}px`, height: `${width}px` }}
 			>
 				<Image
 					className={`transition-transform rounded-${rounded} duration-500 ease-in-out object-cover`}
