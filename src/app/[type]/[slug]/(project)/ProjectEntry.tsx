@@ -82,11 +82,13 @@ export default function ProjectEntry({
 							<div className='flex flex-col gap-1.5'>
 								<h1 className='text-xl'>{project.name}</h1>
 								<ProjectTypeLabel type={project.type} />
-								<div className='flex flex-wrap gap-2'>
-									{project.tags.map(tag => (
-										<ProjectTagLabel key={tag.id} tag={tag} />
-									))}
-								</div>
+								{project.tags.length > 0 && (
+									<div className='flex flex-wrap gap-2'>
+										{project.tags.map(tag => (
+											<ProjectTagLabel key={tag.id} tag={tag} />
+										))}
+									</div>
+								)}
 							</div>
 							<div className='flex flex-col gap-2'>
 								<Button size='normal' className='w-full' onClick={() => {}}>
