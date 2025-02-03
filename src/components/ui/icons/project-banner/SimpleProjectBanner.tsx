@@ -13,9 +13,9 @@ const SimpleProjectBanner: React.FC<ISimpleProjectBanner> = ({
 	height = 10,
 	...res
 }) => {
-	const name = res.image?.url ?? 'default.webp'
+	console.log(res.image)
 	const bucket = process.env.NEXT_PUBLIC_S3_BUKKET_URL
-	const nameUrl = `${bucket}images/projects/gallery/${res.image?.projectId}/${name}`
+	const nameUrl = `${bucket}images/projects/gallery/${res.image?.projectId}/${res.image?.url}`
 	return (
 		<>
 			<div

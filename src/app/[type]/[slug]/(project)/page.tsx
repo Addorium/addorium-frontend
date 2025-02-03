@@ -8,5 +8,5 @@ export default async function GeneralPage({
 }) {
 	const { type, slug } = await params
 	const project = await projectService.getBySlug(slug)
-	return <ProjectEntry initialProject={project} />
+	return <ProjectEntry project={project} />
 }

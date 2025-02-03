@@ -22,39 +22,20 @@ import {
 } from '@/components/ui/image-popup-provider/ImagePopupContext'
 import ProjectTagLabel from '@/components/ui/labels/ProjectTagLabel'
 import ProjectTypeLabel from '@/components/ui/labels/ProjectTypeLabel'
-import { projectService } from '@/services/project.service'
 import type { GalleryImage as GImage } from '@/types/galery.types'
 import { IProject } from '@/types/project.types'
-import { useQuery } from '@tanstack/react-query'
 import { Heart } from 'lucide-react'
-import { useEffect, useState } from 'react'
 
-export default function ProjectEntry({
-	initialProject,
-}: {
-	initialProject: IProject
-}) {
+export default function ProjectEntry({ project }: { project: IProject }) {
+	console.log('project: ', project)
 	const { showPopup } = useImagePopup()
-	const { data, refetch } = useQuery({
-		queryKey: ['project', initialProject.slug],
-		queryFn: () => {
-			return projectService.getBySlug(initialProject.slug)
-		},
-		enabled: true,
-	})
-	const [project, setProject] = useState<IProject>(initialProject)
-	useEffect(() => {
-		if (data) {
-			setProject(data)
-		}
-	}, [data])
-	const hasBanner = project.banner !== null
 	const imagePrewiew = (image: GImage) => {
 		const prewierSettings: ImagePopupOptions = {
 			galeryImage: image,
 		}
 		showPopup(prewierSettings)
 	}
+	const hasBanner = project.banner !== null
 	const hasImages = project?.galleryImages && project.galleryImages.length > 0
 
 	return (
